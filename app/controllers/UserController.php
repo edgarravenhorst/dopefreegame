@@ -25,7 +25,7 @@ class UserController extends BaseController {
 		
 		if($validator->fails()) {
 			
-			return Redirect::route('user_login')->withErrors($validator);
+			return Redirect::route('homepage')->withErrors($validator);
 			
 		}else {
 			
@@ -37,7 +37,7 @@ class UserController extends BaseController {
 			if (Auth::attempt($credentials))
 				return Redirect::route('game_start');
 			else 
-				return Redirect::route('user_login')->withErrors($validator);
+				return Redirect::route('homepage')->withErrors($validator);
 		}
 	}
 	
