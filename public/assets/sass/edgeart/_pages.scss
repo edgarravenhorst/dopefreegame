@@ -1,0 +1,13 @@
+.homepage, .game {
+  #register {
+    @include border-radius(10px);
+    background-color:#f1f1f1;
+    max-width:375px;
+  }
+  
+  #welkom {
+    @include border-radius(10px);
+    background-color:#f1f1f1;
+    max-width:800px;
+  }
+}

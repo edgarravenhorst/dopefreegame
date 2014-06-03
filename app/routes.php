@@ -11,7 +11,12 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+Route::get('/', array('as'=>'homepage', 'uses'=>'GameController@show_homepage'));
+Route::get('/uitleg', array('as'=>'game_start', 'uses'=>'GameController@game_start'));
+Route::post('register', array('as'=>'user_register', 'uses'=>'UserController@post_register'));
+
+Route::group(array('before' => 'auth'), function(){
+
+	
+
+});	

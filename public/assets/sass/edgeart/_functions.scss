@@ -1,0 +1,35 @@
+@mixin rotation ($deg, $origin-x:50%, $origin-y:50%) {
+  transform:rotate($deg);
+  -ms-transform:rotate($deg);
+  -moz-transform:rotate($deg);
+  -webkit-transform:rotate($deg);
+  -o-transform:rotate($deg);
+  
+  transform-origin: $origin-x $origin-y; 
+  -webkit-transform-origin: $origin-x $origin-y;
+  -moz-transform-origin: $origin-x $origin-y;
+  -ms-transform-origin: $origin-x $origin-y;
+  -o-transform-origin: $origin-x $origin-y;
+}
+
+@mixin border-radius ($radius: 5px) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  -o-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin drop-shadow ($dist1:2px, $dist2:2px, $size:2px, $alpha:0.5, $spread:0px) {
+  -webkit-box-shadow:rgba(0, 0, 0, $alpha) $dist1 $dist2 $size $spread;
+  -moz-box-shadow:rgba(0, 0, 0, $alpha) $dist1 $dist2 $size $spread;
+  box-shadow:rgba(0, 0, 0, $alpha) $dist1 $dist2 $size $spread;
+}
+
+@mixin gradient($color1, $color2, $deg:-90deg, $start:0%, $end:100%) {
+  background-image:-webkit-linear-gradient($deg,$color1 $start,$color2 $end);
+  background-image:-moz-linear-gradient($deg,$color1 $start,$color2 $end);
+  background-image:-o-linear-gradient($deg,$color1 $start,$color2 $end);
+  background-image:-ms-linear-gradient($deg,$color1 $start,$color2 $end);
+}
+

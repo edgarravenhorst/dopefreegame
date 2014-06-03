@@ -1,1 +1,11 @@
 @import "layout/edge_layout";
+
+form {
+  input {
+    padding:7px;
+    margin:5px 0;
+    width:100%;
+    @include border-radius(3px);
+    border:1px solid #ccc;
+  }
+}

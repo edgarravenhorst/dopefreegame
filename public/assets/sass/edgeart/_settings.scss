@@ -1,2 +1,63 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700,800,300);
+
+
 $site-min-width: 900px;
 $max-page-width: 1400px;
+
+$main-font: 'Open Sans', sans-serif;
+$main-font-size: 13px;
+$main-font-color: #000000;
+
+$color1: rgb(0, 156, 6);
+$color2: #ccc;
+$color3: #fff;
+
+$main-button-color: #ccc;
+$main-button-text-color: #000;
+
+$main-button-hover-color: $color1;
+$main-button-hover-text-color: #fff;
+
+body {
+  font-family: $main-font;
+  color:$main-font-color;
+  font-size:$main-font-size;
+  .content { 
+    line-height:175%;
+    font-size:$main-font-size; 
+    h1,h2,h3,h4,h5,h6, p, ul, ol, table, .button{margin:20px 0 20px}
+  }
+}
+
+h1,h2,h3,h4,h5,h6 {font-weight:bold;}
+
+
+h1 {
+  font-size:25px;
+}
+
+h2 {
+  font-size:20px;
+} 
+
+h3 {
+  font-size:16px;
+}
+
+h4 {
+  font-size:14px;
+}
+
+.button {
+  display:inline-block;
+  background-color:$main-button-color;
+  margin-top:5px !important;
+  color:$main-button-text-color;
+  padding:7px 15px;
+  text-decoration:none;
+  @include border-radius();
+}.button:hover {
+  background-color:$main-button-hover-color;
+  color:$main-button-hover-text-color;
+}
+

@@ -1,10 +1,7 @@
 .fluid-grid, .fluid {
   width:100%;
-  min-width:$site-min-width;
+  //min-width:$site-min-width;
   font-size:0;
-  
-  //background-color:#f5f5f5;
-  
   position: relative;
   padding-top: 1px;
 }
@@ -23,8 +20,6 @@
       .inner{
         padding:0 25px;
       }
-      //background-color:#fdfdfc;
-      //border:1px solid #e6e6e5;
       margin-bottom:10px;
     }
     .content:last-child {
