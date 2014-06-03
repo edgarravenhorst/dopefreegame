@@ -9,6 +9,10 @@
 	</head>
 	<body class='{{ $bodyClass }}'>
 		
+		@if(Auth::user())
+			{{ link_to_route('user_logout', 'Uitloggen') }}
+		@endif
+		
 		@yield('page-content')
 		
 	</body>

@@ -55,11 +55,7 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-<<<<<<< HEAD
 			'database'  => 'dopefreegame',
-=======
-			'database'  => 'database',
->>>>>>> 01a7349296fde89130cdde0dee4530aa4f7b315e
 			'username'  => 'root',
 			'password'  => '',
 			'charset'   => 'utf8',

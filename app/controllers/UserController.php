@@ -6,7 +6,7 @@ class UserController extends BaseController {
 
 	public function show_login(){
 		if (Auth::user())
-			return Redirect::route('start_game');
+			return Redirect::route('game_start');
 		
 		$view = View::make('private.user.login');
 		$view->title = 'Login';
@@ -35,7 +35,7 @@ class UserController extends BaseController {
 			);
 			
 			if (Auth::attempt($credentials))
-				return Redirect::route('admin_profile');
+				return Redirect::route('game_start');
 			else 
 				return Redirect::route('user_login')->withErrors($validator);
 		}
@@ -58,36 +58,58 @@ class UserController extends BaseController {
 	public function post_register(){
 		$input = Input::all();
 		$rules = array(
-			'first_name' => 'required',
-			'last_name' => 'required',
+			'bonds_nr' => 'required',
+			'serial_code' => 'required',
 			'email' => 'required|unique:users|email',
-			'password' => 'required',
-			'role' => '1'
+			'password' => 'required|confirmed'
 		);
 		
 		$validator = Validator::make($input, $rules);
 		
+		if($validator->fails()) {
+			return Redirect::route('homepage')->withInput()->withErrors($validator);
+		}
+		
 		if($validator->passes()){
+			$bonds_nr = $input['bonds_nr'];
+			$invited_user = InvitedUser::whereBonds_nr($bonds_nr)->first();
+			if ($invited_user){
+				if ($invited_user->serial_code == $input['serial_code']) {
+					$password = $input['password'];
+					$password = Hash::make($password);
+					
+					$user = new User();
+					$user->email = $input['email'];
+					$user->password = $password;
+					$user->first_name = $invited_user->first_name;
+					$user->pre_last_name = $invited_user->pre_last_name;
+					$user->last_name = $invited_user->last_name;
+					$user->last_name = $invited_user->last_name;
+					$user->club = $invited_user->club;
+					$user->licence_nr = $invited_user->licence_nr;
+					$user->save();
+					
+					Auth::login($user);
+					
+					$submission = new Submission();
+					$submission->user_id = $user->id;
+					$submission->score = 0;
+					$submission->save();
+					
+					return Redirect::route('game_start');
+				}else{
+					return Redirect::route('homepage')->withInput();
+				}
+			}else {
+				return Redirect::route('homepage')->withInput();
+			}
 			
-			$password = $input['password'];
-			$password = Hash::make($password);
-			
-			$user = new User();
-			$user->first_name = $input['first_name'];
-			$user->last_name = $input['last_name'];
-			$user->email = $input['email'];
-			$user->password = $password;
-			$user->save();
-			
-			return Redirect::route('user_login');
-		}else {
-			return Redirect::route('user_register')->withInput()->withErrors($validator);
 		}
 	}
 	
 	public function user_logout(){
 		Auth::logout();
-		return Redirect::back();
+		return Redirect::route('homepage');
 	}
 	
 	public function admin_edit_user(){
