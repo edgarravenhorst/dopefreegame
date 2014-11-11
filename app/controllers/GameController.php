@@ -1,17 +1,17 @@
 <?php
 
 class GameController extends BaseController {
-	
+
 	function show_homepage(){
 		if (Auth::user())
 			return Redirect::route('game_start');
-		
-		$view = View::make('public.homepage');
+
+		$view = View::make('public.pages.login');
 		$view->title = 'Welkom';
 		$view->bodyClass = 'homepage';
 		return $view;
 	}
-	
+
 	function game_start(){
 		$view = View::make('public.game.start');
 		$view->title = 'Start game';
@@ -19,6 +19,5 @@ class GameController extends BaseController {
 		$view->user = Auth::user();
 		return $view;
 	}
-	
+
 }
-	

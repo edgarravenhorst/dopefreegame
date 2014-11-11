@@ -21,4 +21,4 @@ Route::group(array('before' => 'auth'), function(){
 
 	Route::get('/uitleg', array('as'=>'game_start', 'uses'=>'GameController@game_start'));
 
-});	
+});

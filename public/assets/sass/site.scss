@@ -1,10 +1,12 @@
 
 // Gebruik dit bestand enkel voor het importeren van andere bestanden.
 
-@import "edgeart/functions";
-@import "edgeart/settings";
-@import "edgeart/layout";
-@import "edgeart/pages";
-@import "edgeart/details";
-@import "edgeart/responsive/main"; 
+@import 'compass';
+@import 'susy';
+@import 'breakpoint';
 
+@import 'site/settings';
+@import 'site/setup';
+
+@import 'site/screen/mobile';
+@import 'site/screen/desktop';
