@@ -11,14 +11,18 @@
 |
 */
 
-Route::get('/', array('as'=>'homepage', 'uses'=>'GameController@show_homepage'));
+Route::get('/', array('as'=>'homepage', 'uses'=>'PageController@show_homepage'));
+Route::get('/activate/{activationcode}', array('as'=>'activateUser', 'uses'=>'PageController@show_login'));
 
-Route::post('register', array('as'=>'user_register', 'uses'=>'UserController@post_register'));
-Route::post('login', array('as'=>'user_login', 'uses'=>'UserController@post_login'));
-Route::get('logout', array('as'=>'user_logout', 'uses'=>'UserController@user_logout'));
+Route::post('/login', array('as'=>'user_login', 'uses'=>'UserController@init_user'));
 
 Route::group(array('before' => 'auth'), function(){
+	Route::get('/voorwaarden', array('as'=>'terms', 'uses'=>'PageController@show_terms'));
+	Route::get('/game', array('as'=>'game_start', 'uses'=>'PageController@show_game'));
+	Route::get('/gefeliciteerd', array('as'=>'game_finish', 'uses'=>'PageController@show_congrats'));
 
-	Route::get('/uitleg', array('as'=>'game_start', 'uses'=>'GameController@game_start'));
+	Route::get('/submit/{questionID}/{answerID}', array('as'=>'submitAnswer', 'uses'=>'GameController@submit_answer'));
+	Route::get('/resetsubmission', array('as'=>'resetSubmission', 'uses'=>'GameController@reset_submission'));
 
-});	
+	Route::get('/logout', array('as'=>'user_logout', 'uses'=>'UserController@user_logout'));
+});

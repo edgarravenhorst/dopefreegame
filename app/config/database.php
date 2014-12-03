@@ -54,11 +54,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
-			'database'  => 'dopefreegame',
-			'unix_socket'   => '/Applications/MAMP/tmp/mysql/mysql.sock',
-			'username'  => 'root',
-			'password'  => 'root',
+			'host'      => '92.48.206.166',
+			'database'  => 'edgeart_dopefree',
+			'username'  => 'edgeart_dopefree',
+			'password'  => 'TTpD4hJpWo',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
