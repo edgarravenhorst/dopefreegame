@@ -1,0 +1,142 @@
+//imports
+
+@import "compass/css3/transition";
+
+//fonts
+@import "fonts/font-stancil";
+
+$font1: 'geogrotesque_stencil_c_bdbold';
+$font2: 'geogrotesque_stencil_c_mdMd';
+$font3: Arial;
+$font4: Arial;
+
+$text-font: $font3;
+
+.font-1 {font-family:$font1;}
+.font-2 {font-family:$font2;}
+.font-3 {font-family:$font3;}
+.font-4 {font-family:$font4;}
+
+//colors
+$color1: #FF6400;
+$color2: #000;
+$color3: #fff;
+$color4: #000;
+
+$text-color: $color3;
+
+.color-1 {color:$color1;}
+.color-2 {color:$color2;}
+.color-3 {color:$color3;}
+.color-4 {color:$color4;}
+
+.bg-color-1 {background-color:$color1;}
+.bg-color-2 {background-color:$color2;}
+.bg-color-3 {background-color:$color3;}
+.bg-color-4 {background-color:$color4;}
+
+//headings
+h1,h2,h3,h4,h5,h6{line-height:125%;}
+h1{font-family:$font1; font-size:40px; font-weight:normal; margin:5px 0; text-transform:uppercase;}
+h2{font-family:$font1; font-size:35px; font-weight:normal; margin:5px 0; text-transform:uppercase;}
+h3{font-size:30px}
+h4{font-size:20px}
+h5{font-size:16px}
+h6{font-size:12px}
+
+//breakpoints and responsive settings
+$mobile: 750px;
+$tablet: 950px;
+$desktop: 1150px;
+$bigscreen: 1350px;
+
+@include breakpoint($tablet){
+  h1{font-size:50px}
+  h2{font-size:40px}
+  h3{font-size:40px}
+  h4{font-size:22px}
+  h5{font-size:18px}
+  h6{font-size:14px}
+}
+
+@include breakpoint($desktop){
+  h1{font-size:60px}
+  h2{font-size:50px}
+  h3{font-size:45px}
+  h4{font-size:30px}
+  h5{font-size:22px}
+  h6{font-size:18px}
+}
+
+@include breakpoint($bigscreen){
+  h1{font-size:70px}
+  h2{font-size:60px}
+  h3{font-size:55px}
+  h4{font-size:40px}
+  h5{font-size:28px}
+  h6{font-size:22px}
+}
+
+// basic setup
+
+body{
+
+  background-color:#000;
+  font-family:$text-font;
+  font-size:13px;
+  line-height:125%;
+  color:$text-color;
+  margin: 0;
+  padding: 0;
+  *{
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+a {
+  color:$text-color;
+  font-weight:bold;
+  text-decoration:underline;
+  &:hover{color:$color1;}
+}
+
+ul, li{list-style:none;margin:0;}
+
+p{
+  a{text-decoration:underline;}
+  a:hover{color:$color1;}
+}
+
+//mixins
+
+@mixin positionAt($top:0, $right:0, $bottom:0, $left:0) {
+  position:absolute;
+  top:$top;
+  left:$left;
+  right:$right;
+  bottom:$bottom;
+}
+
+@mixin centerElement($type) {
+  @if $type == "both"{
+    position:absolute;
+    top:50%;
+    left:50%;
+    @include translate(-50%, -50%);
+  }
+
+  @if $type == "horizontal"{
+    position:absolute;
+    left:50%;
+    @include translateX(-50%);
+  }
+
+  @if $type == "vertical"{
+    position:absolute;
+    top:50%;
+    @include translateY(-50%);
+  }
+
+}
+

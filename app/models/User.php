@@ -80,4 +80,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->email;
 	}
 
+	public static function Exists($bonds_nr) {
+		var_dump(User::whereBonds_nr($bonds_nr)->first());
+		if(User::whereBonds_nr($bonds_nr)->first())
+			return true;
+
+		return false;
+	}
+
 }

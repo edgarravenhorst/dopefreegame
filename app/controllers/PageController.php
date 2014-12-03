@@ -4,28 +4,31 @@ class PageController extends BaseController {
 
 	function show_homepage() {
 		if (Auth::user())
-			return Redirect::route('page_terms');
+			return Redirect::route('terms');
 
 		$view = View::make('public.pages.login');
 		$view->title = 'Welkom';
-		$view->bodyClass = 'homepage';
+		$view->bodyClass = 'loginscreen';
+		$view->activationcode;
+
 		return $view;
 	}
 
-	function show_login() {
+	function show_login($activationcode) {
 		if (Auth::user())
-			return Redirect::route('page_terms');
+			return Redirect::route('terms');
 
 		$view = View::make('public.pages.login');
 		$view->title = 'Login';
-		$view->bodyClass = 'login';
+		$view->bodyClass = 'loginscreen';
+		$view->activationcode = $activationcode;
 		return $view;
 	}
 
 	function show_terms() {
 		$view = View::make('public.pages.terms');
 		$view->title = 'Algemene voorwaarden';
-		$view->bodyClass = 'game';
+		$view->bodyClass = 'terms';
 		$view->user = Auth::user();
 		return $view;
 	}
@@ -43,6 +46,19 @@ class PageController extends BaseController {
 		$view->title = 'Doping game';
 		$view->bodyClass = 'game';
 		$view->user = Auth::user();
+
+		$submission = Submission::find($view->user->id);
+		$questions = Questions::get();
+
+		foreach($questions as $question){
+			$is_answered = ($submission['question'.$question->questionID] != 0);
+			$question->is_answered = $is_answered;
+		}
+
+		$view->finished = '';
+
+		$view->questions = $questions;
+
 		return $view;
 	}
 
