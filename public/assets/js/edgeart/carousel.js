@@ -25,7 +25,7 @@ if (window.innerWidth < 750) {
 }
 
 
-alert(quality);
+//alert(quality);
 
 var currentPerson = 0;
 

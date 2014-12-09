@@ -86,6 +86,7 @@ body.terms {
     .scroll-content {
       height:275px;
     }
+    
   }
 
   .btn-terms {
@@ -131,6 +132,16 @@ body.terms {
 }
 
 #game-interface {
+  
+  
+   #main-video{
+      position:fixed;
+      left:0;
+      top:0;
+      z-index:44444;
+      display:none;
+    }
+  
 
   .btn-previous, .btn-next {
     position:absolute;
@@ -227,6 +238,7 @@ body.terms {
     @include centerElement('both');
     width:1100px;
     height:450px;
+    z-index:555555; 
     .content {
 
       background-color:rgba(255,255,255, 0.3);

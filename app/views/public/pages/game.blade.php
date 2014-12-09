@@ -11,6 +11,11 @@
 	</section>
 
 	<section id='game-interface'>
+		
+		<video id="main-video">
+			<source src="https://s3-us-west-2.amazonaws.com/dopefreegame/videos/verhaal+-+thijs_YouTube_1080p.mp4" type="video/mp4"></source>
+		</video>
+		
 		<button class='btn-previous'></button>
 		<button class='btn-next'></button>
 

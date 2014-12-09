@@ -52,13 +52,25 @@ $(document).ready(function(){
 
 	$('.dilemma .btn-start-challenge').click(function(e){
 		$(this).closest('.dilemma').find('.summery').fadeOut();
-		$(this).closest('.dilemma').find('.question').fadeIn();
+		$("#main-video").get(0).play();
+		var v = document.getElementById("main-video");
+		if (v.requestFullscreen) {
+		    v.requestFullscreen();
+		} else if (v.webkitRequestFullscreen) {
+		    v.webkitRequestFullscreen();
+		} else if (v.mozRequestFullScreen) {
+		    v.mozRequestFullScreen();
+		} else if (v.msRequestFullscreen) {
+		    v.msRequestFullscreen();
+		}
 	});
 
 	$('.label').click(function(){
 		var personID = $(this).attr('data-person');
 		$('#dilemma-p'+personID+' .summery').show();
 		$('#dilemma-p'+personID).fadeIn();
+		// video
+		$("#main-video").fadeIn();
 	});
 
 	$(window).click(function(){
