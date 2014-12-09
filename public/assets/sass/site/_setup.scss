@@ -127,6 +127,7 @@ body.terms {
 }
 
 #main-interface {
+  z-index:999999;
   @include positionAt(0,0,auto,0);
   height:50px;
 }
@@ -140,8 +141,16 @@ body.terms {
         position:fixed;
         left:0;
         top:0;
-        z-index:44444;        
+        z-index:44444;                  
       }
+      
+        #skip-btn
+        {
+          position:absolute;
+          bottom:0;
+          right:0;
+          z-index:999999;
+        }
       
       
       #load-bar{      
@@ -150,14 +159,14 @@ body.terms {
         bottom:30px;
         height:4px;
         width:100%;
-        z-index:666666;   
+
         background-color:#fff;
         
           #loader{
            display:block;
            width:0%;
            height:4px;
-           background-color:yellow;         
+           background-color:$color1;         
           }
       }
       
@@ -166,9 +175,8 @@ body.terms {
           left:0;
           bottom:0;
           height:30px;    
-          z-index:555555; 
           display:none;    
-          
+          z-index:555555;
           background-color:#000;
           width:100%;
           
@@ -183,9 +191,6 @@ body.terms {
             background-color:#000;
             outline:none;
           }
-          
-         // #play-pause{ background-color:purple; }          
-         // #mute{background-color:yellow;}
           
           #time-indicator, #time-duration{
             line-height:30px;
@@ -309,6 +314,7 @@ body.terms {
       background-color:$color1;
       border:none;
       width:380px;
+      cursor:pointer;
       height:225px;
       margin-top:225px;
       text-align:left;
@@ -318,6 +324,7 @@ body.terms {
   }
 
   .question {
+    z-index:999;
     @include positionAt(0,0,0,0);
     .content {
       .inner{

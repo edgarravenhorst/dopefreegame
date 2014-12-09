@@ -68,6 +68,8 @@ $(document).ready(function(){
 		} else if (v.msRequestFullscreen) {
 		    v.msRequestFullscreen();
 		}
+		
+		
 			
 			$("#video-container #video-controls").show();
 			$("#video-container #load-bar").show();
@@ -76,7 +78,7 @@ $(document).ready(function(){
 			var playButton = document.getElementById("play-pause");
   			var muteButton = document.getElementById("mute");
 			var seekBar = document.getElementById("seek-bar");
-			
+			var skipbtn = document.getElementById("skip-btn");
 			// pay/pause button
 			playButton.addEventListener("click", function() {
 			  if (video.paused == true) {
@@ -89,6 +91,10 @@ $(document).ready(function(){
 			  }
 			});   
 
+			// skip button
+			skipbtn.addEventListener("click", function() {
+				finishVideo();
+			});
             
             // mute button
             muteButton.addEventListener("click", function() {
@@ -101,8 +107,7 @@ $(document).ready(function(){
 			   muteButton.innerHTML = '<img src="assets/images/video/mute-btn.png"/>';
 			  }
 			});
-			
-		
+					
 			video.addEventListener("timeupdate", function() {
 			  var value = (100 / video.duration) * video.currentTime;
 			  
@@ -123,10 +128,10 @@ $(document).ready(function(){
 			  var totalSeconds = Math.floor(video.duration-(video.duration-(totalMinutes*60))); 
 			  $("#time-duration").html("/" + totalMinutes+":"+totalSeconds);
 			});	
-		
-		
-		// when the video ends
-		$("#main-video").get(0).onended = function(e) {
+			
+			
+		function finishVideo(){
+			
 			// exit fullscreen API
 			if (document.exitFullscreen) {
 			    document.exitFullscreen();
@@ -137,9 +142,20 @@ $(document).ready(function(){
 			} else if (document.msExitFullscreen) {
 			    document.msExitFullscreen();
 			}
-			$("#video-container #video-controls").hide();
+			// if the video is ended show in background;
+			video.pause();
+			video.currentTime = 0;
 			$("#video-container #load-bar").hide();
+			$("#video-container #video-controls").hide();
+			$("#video-container video").css('z-index',1);
 			$('.dilemma .question').fadeIn();
+			
+		}
+		
+		
+		// when the video ends
+		$("#main-video").get(0).onended = function(e) {
+			finishVideo();
 		};
 	});
 
@@ -148,7 +164,9 @@ $(document).ready(function(){
 		$('#dilemma-p'+personID+' .summery').show();
 		$('#dilemma-p'+personID).fadeIn();
 		// video
-		$("#video-container").fadeIn();
+		$("video").width('100%');
+		$("video").height('100%');
+		$("#video-container").fadeIn();		
 		$("#video-container #video-controls").hide();
 		$("#video-container #load-bar").hide();
 	});

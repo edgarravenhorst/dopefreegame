@@ -12,21 +12,20 @@
 
 	<section id='game-interface'>
 		
-		<section id="video-container">
+		<section id="video-container">		
 			<video id="main-video">
 				<source src="https://s3-us-west-2.amazonaws.com/dopefreegame/videos/verhaal+-+thijs_YouTube_1080p.mp4" type="video/mp4"></source>
 			</video>
 			
 			<section id="load-bar">
-				<!-- <input type="range" id="seek-bar" value="0">-->
 				<section id="loader"></section>
 			</section>
-			 <section id="video-controls">
+			 <section id="video-controls">			 	
 			    <button type="button" id="play-pause"><img src="assets/images/video/pause-btn.png"/></button>
 			    <button type="button" id="mute"><img src="assets/images/video/mute-btn.png"/></button> 
 			    <section id="time-indicator"></section>	
 			    <section id="time-duration"></section>			    
-			    
+			    <input type="button" id="skip-btn" value="skip" />
 			 </section>
 		</section>
 		
