@@ -14,6 +14,7 @@
 Route::get('/', array('as'=>'homepage', 'uses'=>'PageController@show_homepage'));
 Route::get('/activate/{activationcode}', array('as'=>'activateUser', 'uses'=>'PageController@show_login'));
 
+Route::get('/login', array('as'=>'homepage', 'uses'=>'PageController@show_homepage'));
 Route::post('/login', array('as'=>'user_login', 'uses'=>'UserController@init_user'));
 
 Route::group(array('before' => 'auth'), function(){
