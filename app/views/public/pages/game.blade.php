@@ -14,7 +14,7 @@
 		
 		<section id="video-container">		
 			<video id="main-video" preload>
-				<source src="https://s3-us-west-2.amazonaws.com/dopefreegame/videos/verhaal+-+thijs_YouTube_1080p.mp4" type="video/mp4"></source>
+				<source src="https://s3-us-west-2.amazonaws.com/dopefreegame/videos/thijs/verhaal.mp4" type="video/mp4"></source>
 			</video>
 			
 			<section id="load-bar">

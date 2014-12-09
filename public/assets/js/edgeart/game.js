@@ -134,8 +134,7 @@ $(document).ready(function(){
 					
 				});
 				
-				$("#video-container").fadeOut();
-			
+				$("#video-container").fadeOut();			
 		}
 		
 		
@@ -183,7 +182,7 @@ $(document).ready(function(){
 		
 		var anwser = $(".answers li.checked").attr("data-id");
 		
-		$("video").attr('src','https://s3-us-west-2.amazonaws.com/dopefreegame/videos/antwoord+'+anwser+'+-+thijs_YouTube_1080p.mp4');
+		$("video").attr('src','https://s3-us-west-2.amazonaws.com/dopefreegame/videos/thijs/antwoord_'+anwser+'.mp4');
 		$("video").get(0).play();
 		$("#video-container").fadeIn();
 		$(".content").hide();
@@ -192,15 +191,15 @@ $(document).ready(function(){
 		// als het antwoord gespeeld heeft
 		$("video").get(0).onended = function(e) {
 			$("video").get(0).pause();
-			$("video").attr('src','https://s3-us-west-2.amazonaws.com/dopefreegame/videos/antwoord+-+thijs_YouTube_1080p.mp4');
+			$("video").attr('src','https://s3-us-west-2.amazonaws.com/dopefreegame/videos/thijs/antwoord.mp4');
 			$("#load-bar").show();
 			$("#video-controls").show();
 			
 			controlsInit('answer');
 			$("video").get(0).play();
 			$("video").get(0).onended = function(e) {
-				//exitFullscreen();
-				finishAnswerVideo();
+			//exitFullscreen();
+			finishAnswerVideo();
 			
 		};
 			
@@ -215,12 +214,14 @@ $(document).ready(function(){
 			$('.dilemma .question').hide();
 		});
 	});
-
+	
+	
+	// start challenge
 	$('.dilemma .btn-start-challenge').click(function(e){
 		$(this).closest('.dilemma').find('.summery').fadeOut();
 		
 			// play the video	
-			video.src="https://s3-us-west-2.amazonaws.com/dopefreegame/videos/verhaal+-+thijs_YouTube_1080p.mp4";
+			video.src="https://s3-us-west-2.amazonaws.com/dopefreegame/videos/thijs/verhaal.mp4";
 			//enterFullscreen();
 			video.play();	
 			$("#video-container #video-controls").show();
