@@ -52,8 +52,13 @@ $(document).ready(function(){
 
 	$('.dilemma .btn-start-challenge').click(function(e){
 		$(this).closest('.dilemma').find('.summery').fadeOut();
-		$("#main-video").get(0).play();
-		var v = document.getElementById("main-video");
+		
+		// play the video
+		var video = $("#main-video").get(0);
+		video.play();
+		
+		// fullscreen API
+		var v = document.getElementById("video-container");
 		if (v.requestFullscreen) {
 		    v.requestFullscreen();
 		} else if (v.webkitRequestFullscreen) {
@@ -63,6 +68,79 @@ $(document).ready(function(){
 		} else if (v.msRequestFullscreen) {
 		    v.msRequestFullscreen();
 		}
+			
+			$("#video-container #video-controls").show();
+			$("#video-container #load-bar").show();
+			
+			// controls
+			var playButton = document.getElementById("play-pause");
+  			var muteButton = document.getElementById("mute");
+			var seekBar = document.getElementById("seek-bar");
+			
+			// pay/pause button
+			playButton.addEventListener("click", function() {
+			  if (video.paused == true) {
+			    video.play();			
+			    playButton.innerHTML = '<img src="assets/images/video/pause-btn.png"/>';
+			  } 
+			  else {	
+			    video.pause();			
+			    playButton.innerHTML = '<img src="assets/images/video/play-btn.png"/>';
+			  }
+			});   
+
+            
+            // mute button
+            muteButton.addEventListener("click", function() {
+			  if (video.muted == false) {
+			    video.muted = true;
+			    muteButton.innerHTML = '<img src="assets/images/video/no-mute-btn.png"/>';
+			  } 
+			  else {
+			    video.muted = false;
+			   muteButton.innerHTML = '<img src="assets/images/video/mute-btn.png"/>';
+			  }
+			});
+			
+		
+			video.addEventListener("timeupdate", function() {
+			  var value = (100 / video.duration) * video.currentTime;
+			  
+			  var time = video.currentTime;
+				var minutes = Math.floor(time / 60);   
+				var seconds = Math.floor(time); 
+			  
+			  // calculate one percent first 			  
+			  var percent = (video.duration/100);
+			  // set current percent
+			  var currentPercent = Math.round((value/percent)*100)/100;
+			  $("#load-bar #loader").css('width',currentPercent+"%");
+			  
+			  // setting the time
+			  $("#time-indicator").html(minutes+":"+seconds);
+			  // duratie totaal
+			  var totalMinutes = Math.floor(video.duration / 60);   
+			  var totalSeconds = Math.floor(video.duration-(video.duration-(totalMinutes*60))); 
+			  $("#time-duration").html("/" + totalMinutes+":"+totalSeconds);
+			});	
+		
+		
+		// when the video ends
+		$("#main-video").get(0).onended = function(e) {
+			// exit fullscreen API
+			if (document.exitFullscreen) {
+			    document.exitFullscreen();
+			} else if (document.webkitExitFullscreen) {
+			    document.webkitExitFullscreen();
+			} else if (document.mozCancelFullScreen) {
+			    document.mozCancelFullScreen();
+			} else if (document.msExitFullscreen) {
+			    document.msExitFullscreen();
+			}
+			$("#video-container #video-controls").hide();
+			$("#video-container #load-bar").hide();
+			$('.dilemma .question').fadeIn();
+		};
 	});
 
 	$('.label').click(function(){
@@ -70,7 +148,9 @@ $(document).ready(function(){
 		$('#dilemma-p'+personID+' .summery').show();
 		$('#dilemma-p'+personID).fadeIn();
 		// video
-		$("#main-video").fadeIn();
+		$("#video-container").fadeIn();
+		$("#video-container #video-controls").hide();
+		$("#video-container #load-bar").hide();
 	});
 
 	$(window).click(function(){
