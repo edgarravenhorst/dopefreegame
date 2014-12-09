@@ -99,8 +99,15 @@ $(document).ready(function(){
 					  // setting the time
 					  $("#time-indicator").html(minutes+":"+seconds);
 					  // duratie totaal
-					  var totalMinutes = Math.floor(video.duration / 60);   
-					  var totalSeconds = Math.floor(video.duration-(video.duration-(totalMinutes*60))); 
+					  // if there is more than a minute
+					  if(video.duration > 60){
+						  var totalMinutes = Math.floor(video.duration / 60);   
+						  var totalSeconds = Math.floor(video.duration-(video.duration-(totalMinutes*60)));
+					  } 
+					  else{
+					  	totalMinutes = 00;
+					  	totalSeconds = Math.floor(video.duration);
+					  }
 					  $("#time-duration").html("/" + totalMinutes+":"+totalSeconds);
 				});	
 
@@ -180,30 +187,26 @@ $(document).ready(function(){
 
 	$('.dilemma').on('click', '.btn-continue.active' ,function(){		
 		
-		var anwser = $(".answers li.checked").attr("data-id");
-		
+		// video antwoord
+		var anwser = $(".answers li.checked").attr("data-id");		
 		$("video").attr('src','https://s3-us-west-2.amazonaws.com/dopefreegame/videos/thijs/antwoord_'+anwser+'.mp4');
 		$("video").get(0).play();
 		$("#video-container").fadeIn();
 		$(".content").hide();
 		$("#score-overlay").hide();
 		
-		// als het antwoord gespeeld heeft
+		// als het antwoord gespeeld heeft gaan we verder met het hele antwoord
 		$("video").get(0).onended = function(e) {
 			$("video").get(0).pause();
 			$("video").attr('src','https://s3-us-west-2.amazonaws.com/dopefreegame/videos/thijs/antwoord.mp4');
 			$("#load-bar").show();
-			$("#video-controls").show();
-			
+			$("#video-controls").show();			
 			controlsInit('answer');
 			$("video").get(0).play();
 			$("video").get(0).onended = function(e) {
-			//exitFullscreen();
-			finishAnswerVideo();
-			
-		};
-			
-			
+				//exitFullscreen();
+				finishAnswerVideo();			
+			};		
 		};		
 		
 	});
@@ -221,9 +224,9 @@ $(document).ready(function(){
 		$(this).closest('.dilemma').find('.summery').fadeOut();
 		
 			// play the video	
-			video.src="https://s3-us-west-2.amazonaws.com/dopefreegame/videos/thijs/verhaal.mp4";
+			$("video").attr('src',"https://s3-us-west-2.amazonaws.com/dopefreegame/videos/thijs/verhaal.mp4");
 			//enterFullscreen();
-			video.play();	
+			$("video").get(0).play();	
 			$("#video-container #video-controls").show();
 			$("#video-container #load-bar").show();
 			
@@ -239,6 +242,7 @@ $(document).ready(function(){
 		var personID = $(this).attr('data-person');
 		$('#dilemma-p'+personID+' .summery').show();
 		$('#dilemma-p'+personID).fadeIn();
+		$('.content').show();
 		// video
 		$("video").width('100%');
 		$("video").height('100%');
@@ -246,6 +250,7 @@ $(document).ready(function(){
 		$("#video-container video").css('z-index',333333);
 		$("#video-container #video-controls").hide();
 		$("#video-container #load-bar").hide();
+		video.currentTime = 0;	
 	});
 
 	$(window).click(function(){
