@@ -147,9 +147,15 @@ body.terms {
         #skip-btn
         {
           position:absolute;
-          bottom:0;
+          bottom:40px;
           right:0;
           z-index:999999;
+          width:200px;
+          height:25px;
+          line-height:25px;
+          border:0;
+          background-color:$color1;
+          cursor:pointer;
         }
       
       
@@ -159,7 +165,7 @@ body.terms {
         bottom:30px;
         height:4px;
         width:100%;
-
+        z-index:555555;
         background-color:#fff;
         
           #loader{

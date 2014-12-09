@@ -13,7 +13,7 @@
 	<section id='game-interface'>
 		
 		<section id="video-container">		
-			<video id="main-video">
+			<video id="main-video" preload>
 				<source src="https://s3-us-west-2.amazonaws.com/dopefreegame/videos/verhaal+-+thijs_YouTube_1080p.mp4" type="video/mp4"></source>
 			</video>
 			
@@ -127,11 +127,11 @@
 					<p>{{ $question->question }}</p>
 					<h1>Wat zou jij doen?</h1>
 					<ul class='answers'>
-						<li data-id="1" class='answer1'>{{ $question->answer1 }}</li>
-						<li data-id="2" class='answer2'>{{ $question->answer2 }}</li>
-						<li data-id="3" class='answer3'>{{ $question->answer3 }}</li>
-						<li data-id="4" class='answer4'>{{ $question->answer4 }}</li>
-						<li data-id="5" class='answer5'>{{ $question->answer5 }}</li>
+						<li data-id="a" class='answer1'>{{ $question->answer1 }}</li>
+						<li data-id="b" class='answer2'>{{ $question->answer2 }}</li>
+						<li data-id="c" class='answer3'>{{ $question->answer3 }}</li>
+						<li data-id="d" class='answer4'>{{ $question->answer4 }}</li>
+						<li data-id="e" class='answer5'>{{ $question->answer5 }}</li>
 					</ul>
 					</section>
 					<button class='btn-continue'>Verder</button>
