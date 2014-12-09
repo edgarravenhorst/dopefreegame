@@ -54,7 +54,7 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
+			'host'      => '92.48.206.166',
 			'database'  => 'edgeart_dopefree',
 			'username'  => 'edgeart_dopefree',
 			'password'  => 'dEMm1QRrlG',
