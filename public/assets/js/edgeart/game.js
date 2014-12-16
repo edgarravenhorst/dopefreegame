@@ -35,16 +35,16 @@ $(document).ready(function(){
 	
 	
 	// pay/pause button
-		playButton.addEventListener("click", function() {
-		  if (video.paused == true) {
-		    video.play();			
-		    playButton.innerHTML = '<img src="assets/images/video/pause-btn.png"/>';
-		  } 
-		  else {	
-		    video.pause();			
-		    playButton.innerHTML = '<img src="assets/images/video/play-btn.png"/>';
-		  }
-		});   
+		//playButton.addEventListener("click", function() {
+		 // if (video.paused == true) {
+		  //  video.play();			
+		   // playButton.innerHTML = '<img src="assets/images/video/pause-btn.png"/>';
+		  //} 
+		  //else {	
+		   // video.pause();			
+		   // playButton.innerHTML = '<img src="assets/images/video/play-btn.png"/>';
+		 // }
+		//});   
 	
 		
 	    
@@ -185,18 +185,20 @@ $(document).ready(function(){
 		}
 	
 
-	$('.dilemma').on('click', '.btn-continue.active' ,function(){		
+	$('.dilemma').on('click', '.btn-continue.active' ,function(){	
+		
+	
 		
 		// video antwoord
 		var anwser = $(".answers li.checked").attr("data-id");		
-		$("video").attr('src','https://s3-us-west-2.amazonaws.com/dopefreegame/videos/thijs/antwoord_'+anwser+'.mp4');
-		$("video").get(0).play();
-		$("#video-container").fadeIn();
+		//$("video").attr('src','https://s3-us-west-2.amazonaws.com/dopefreegame/videos/thijs/antwoord_'+anwser+'.mp4');
+		//$("video").get(0).play();
+		//$("#video-container").fadeIn();
 		$(".content").hide();
 		$("#score-overlay").hide();
 		
 		// als het antwoord gespeeld heeft gaan we verder met het hele antwoord
-		$("video").get(0).onended = function(e) {
+		/*$("video").get(0).onended = function(e) {
 			$("video").get(0).pause();
 			$("video").attr('src','https://s3-us-west-2.amazonaws.com/dopefreegame/videos/thijs/antwoord.mp4');
 			$("#load-bar").show();
@@ -207,7 +209,8 @@ $(document).ready(function(){
 				//exitFullscreen();
 				finishAnswerVideo();			
 			};		
-		};		
+		};
+		*/		
 		
 	});
 
@@ -224,18 +227,18 @@ $(document).ready(function(){
 		$(this).closest('.dilemma').find('.summery').fadeOut();
 		
 			// play the video	
-			$("video").attr('src',"https://s3-us-west-2.amazonaws.com/dopefreegame/videos/thijs/verhaal.mp4");
+			//$("video").attr('src',"https://s3-us-west-2.amazonaws.com/dopefreegame/videos/thijs/verhaal.mp4");
 			//enterFullscreen();
-			$("video").get(0).play();	
-			$("#video-container #video-controls").show();
-			$("#video-container #load-bar").show();
+			//$("video").get(0).play();	
+			//$("#video-container #video-controls").show();
+			//$("#video-container #load-bar").show();
 			
 			controlsInit('basic');	
 		
 		// when the video ends
-		$("#main-video").get(0).onended = function(e) {
-			finishBasicVideo();
-		};
+		//$("#main-video").get(0).onended = function(e) {
+			//finishBasicVideo();
+		//};
 	});
 
 	$('.label').click(function(){
@@ -244,13 +247,13 @@ $(document).ready(function(){
 		$('#dilemma-p'+personID).fadeIn();
 		$('.content').show();
 		// video
-		$("video").width('100%');
-		$("video").height('100%');
-		$("#video-container").fadeIn();	
-		$("#video-container video").css('z-index',333333);
-		$("#video-container #video-controls").hide();
-		$("#video-container #load-bar").hide();
-		video.currentTime = 0;	
+		//$("video").width('100%');
+		//$("video").height('100%');
+		//$("#video-container").fadeIn();	
+		//$("#video-container video").css('z-index',333333);
+		//$("#video-container #video-controls").hide();
+		//$("#video-container #load-bar").hide();
+		//video.currentTime = 0;	
 	});
 
 	$(window).click(function(){
