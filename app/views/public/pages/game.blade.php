@@ -11,25 +11,25 @@
 	</section>
 
 	<section id='game-interface'>
-		
-		<section id="video-container">		
+
+		<section id="video-container">
 			<video id="main-video" preload>
 				<source src="https://s3-us-west-2.amazonaws.com/dopefreegame/videos/thijs/verhaal.mp4" type="video/mp4"></source>
 			</video>
-			
+
 			<section id="load-bar">
 				<section id="loader"></section>
 			</section>
-			 <section id="video-controls">			 	
+			 <section id="video-controls">
 			    <button type="button" id="play-pause"><img src="assets/images/video/pause-btn.png"/></button>
-			    <button type="button" id="mute"><img src="assets/images/video/mute-btn.png"/></button> 
-			    <section id="time-indicator"></section>	
-			    <section id="time-duration"></section>			    
+			    <button type="button" id="mute"><img src="assets/images/video/mute-btn.png"/></button>
+			    <section id="time-indicator"></section>
+			    <section id="time-duration"></section>
 			    <input type="button" id="skip-btn" value="skip" />
 			 </section>
 		</section>
-		
-		
+
+
 		<button class='btn-previous'></button>
 		<button class='btn-next'></button>
 
@@ -154,5 +154,6 @@
 
 	{{ HTML::script('assets/js/external/jquery.touchSwipe.js') }}
 	{{ HTML::script('assets/js/edgeart/carousel.js') }}
+	{{ HTML::script('assets/js/edgeart/videocontroller.js') }}
 	{{ HTML::script('assets/js/edgeart/game.js') }}
 @stop
