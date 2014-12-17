@@ -86,7 +86,7 @@ body.terms {
     .scroll-content {
       height:275px;
     }
-    
+
   }
 
   .btn-terms {
@@ -127,23 +127,21 @@ body.terms {
 }
 
 #main-interface {
-  z-index:999999;
+  z-index:999;
   @include positionAt(0,0,auto,0);
   height:50px;
 }
 
 #game-interface {
-  
-  
    #video-container{
     display:none;
      #main-video{
         position:fixed;
         left:0;
         top:0;
-        z-index:44444;                  
+        z-index:44444;
       }
-      
+
         #skip-btn
         {
           position:absolute;
@@ -157,9 +155,9 @@ body.terms {
           background-color:$color1;
           cursor:pointer;
         }
-      
-      
-      #load-bar{      
+
+
+      #load-bar{
         position:fixed;
         left:0;
         bottom:30px;
@@ -167,25 +165,25 @@ body.terms {
         width:100%;
         z-index:555555;
         background-color:#fff;
-        
+
           #loader{
            display:block;
            width:0%;
            height:4px;
-           background-color:$color1;         
+           background-color:$color1;
           }
       }
-      
-      #video-controls{  
+
+      #video-controls{
          position:fixed;
           left:0;
           bottom:0;
-          height:30px;    
-          display:none;    
+          height:30px;
+          display:none;
           z-index:555555;
           background-color:#000;
           width:100%;
-          
+
           #play-pause, #mute{
             border:0;
             float:left;
@@ -197,7 +195,7 @@ body.terms {
             background-color:#000;
             outline:none;
           }
-          
+
           #time-indicator, #time-duration{
             line-height:30px;
             float:left;
@@ -206,11 +204,11 @@ body.terms {
             color:#3e3e3e;
             padding:0;
           }
-          
+
           #time-indicator{margin-left:10px; color:#fff; font-weight:bold;}
-           
+
       }
-    
+
    }
 
   .btn-previous, .btn-next {
@@ -300,6 +298,8 @@ body.terms {
 }
 
 .dilemma {
+ display:none;
+ z-index:1000;
  background-color:#000;
  @include positionAt(0,0,0,0);
 
@@ -308,7 +308,7 @@ body.terms {
     @include centerElement('both');
     width:1100px;
     height:450px;
-    z-index:555555; 
+    z-index:555555;
     .content {
 
       background-color:rgba(255,255,255, 0.3);
@@ -430,11 +430,11 @@ body.terms {
 }
 
 #score-overlay.visible {
-  z-index:999 !important;
+  z-index:99999 !important;
   opacity:1;
   background-position:50% 36.5%;
 
-  .inner{
+  .inner {
      opacity:1;
   }
 }

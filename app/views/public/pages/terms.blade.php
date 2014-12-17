@@ -1,4 +1,4 @@
-@extends('public.layout.default')
+@extends('public.layout.ajaxpage')
 
 @section('page-content')
 
@@ -24,9 +24,11 @@
 		  $( '.btn-start-game' ).toggleClass( "active" );
 		});
 
-		$( "#page-content" ).on('click', '.btn-start-game.active',function() {
-			window.location.assign('game');
-		});
+		$(function(){
+			$( "#page-content" ).on('click', '.btn-start-game.active',function() {
+				pControl.load('{{ URL::route("game_start") }}');
+			});
+		})
 	</script>
 
 	{{ HTML::script('assets/js/edgeart/scrollbar.js') }}

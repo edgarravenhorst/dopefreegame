@@ -12,6 +12,9 @@
 */
 
 Route::get('/', array('as'=>'homepage', 'uses'=>'PageController@show_homepage'));
+
+Route::get('/ajax', array('as'=>'ajax', 'uses'=>'PageController@show_ajax'));
+
 Route::get('/activate/{activationcode}', array('as'=>'activateUser', 'uses'=>'PageController@show_login'));
 
 Route::get('/login', array('as'=>'homepage', 'uses'=>'PageController@show_homepage'));

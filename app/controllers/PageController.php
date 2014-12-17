@@ -14,6 +14,15 @@ class PageController extends BaseController {
 		return $view;
 	}
 
+	function show_ajax() {
+		$view = View::make('public.pages.index');
+		$view->title = 'Welkom';
+		$view->bodyClass = 'loginscreen';
+		$view->activationcode;
+
+		return $view;
+	}
+
 	function show_login($activationcode) {
 		if (Auth::user())
 			return Redirect::route('terms');

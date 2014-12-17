@@ -1,4 +1,4 @@
-@extends('public.layout.default')
+@extends('public.layout.ajaxpage')
 
 @section('page-content')
 

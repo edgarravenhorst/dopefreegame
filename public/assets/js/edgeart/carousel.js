@@ -1,216 +1,227 @@
-var canvas = document.getElementById('carousel');
-var context = canvas.getContext('2d');
+var Carousel = function(canvasID){
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+	this.canvas = document.getElementById(canvasID);
+	this.context = this.canvas.getContext('2d');
 
-var totalFrames = 359;
-var loadedFrames = 1;
-var currentFrame = 0;
-var frames = Array();
-var swipeEaseHandler;
-var startScrollTime;
-var toFrameInterval;
-var closestPersonDistance;
-var quality = 'high';
+	this.frameCount = 359;
+	this.framesLoaded = 1;
+	this.currentFrame = 0;
 
-if (window.innerWidth < 1500) {
-	quality = 'medium';
-}
-if (window.innerWidth < 950) {
-	quality = 'low';
-}
-if (window.innerWidth < 750) {
-	quality = 'mobile';
-}
+	this.breakpoints = Array(0, 72, 144, 216, 288);
+	this.currentBreakpoint = 0;
+
+	this.easingInterval;
+
+	this.frames = Array();
+
+	this.preloadStatus = 'loading';
+	this.preloadPercent = 0;
+
+	this.imageQuality = 'high';
+
+	this.init = function (){
+		this.canvas.width = window.innerWidth;
+		this.canvas.height = window.innerHeight;
+		this.imageQuality = this.getImageQuality();
+
+		this.initFrames();
+
+		$('#game-interface .btn-next').click(this.toNextBreakpoint.bind(this));
+		$('#game-interface .btn-previous').click(this.toPrevBreakpoint.bind(this));
+		$('body').swipe({excludedElements:"", swipeStatus:this.onSwipeHandler.bind(this) , triggerOnTouchLeave:true, threshold:null});
+
+		window.onresize = function(){
+			this.canvas.width = window.innerWidth;
+			this.canvas.height = window.innerHeight;
+			this.render(this.currentFrame);
+		}.bind(this);
+
+		$('#game-interface .person-select button').click(function(e){
+			var frame = $(e.currentTarget).attr('data-frame');
+			$.each(this.breakpoints ,function(i , breakpoint){
+				if (frame == breakpoint) this.currentBreakpoint = i;
+			}.bind(this));
+			this.gotoAndPlay(frame);
+		}.bind(this));
+	};
 
 
-//alert(quality);
+	this.onSwipeHandler = function(event, phase, direction, distance){
+		if(direction == 'up' || direction == 'down')
+		return;
 
-var currentPerson = 0;
+	    if (phase == "start"){
+			clearInterval(this.easingInterval);
+	        startScrollTime = new Date();
+	        startframe = this.currentFrame;
+	    }
 
-var personFrames = Array(0, 72, 144, 216, 288);
+	    if (distance > 20){
+		    $('.label').fadeOut(100);
+
+		    if(direction == 'left')
+		     	tempFrame = startframe + Math.floor(distance/10);
+		    if(direction == 'right')
+		        tempFrame = startframe - Math.floor(distance/10);
+
+			if(tempFrame) this.render(tempFrame);
+
+
+		    if (phase == "end"){
+		     	var timeInt = new Date()-startScrollTime;
+		        var scrollEase_dx = (distance/timeInt)*(1.2/(timeInt/1000));
+
+		        this.easingInterval = setInterval(function(){
+
+		        	scrollEase_dx *= 0.95;
+
+		        	if (scrollEase_dx < 1){
+		        		this.gotoAndPlay(this.closestBreakpoint());
+		        		clearInterval(this.easingInterval);
+		        	}
+
+		        	if(direction == 'left')
+				       	tempFrame += Math.floor(scrollEase_dx);
+				    if(direction == 'right')
+				        tempFrame -= Math.floor(scrollEase_dx);
+
+		        	this.render(tempFrame);
+
+		        }.bind(this), 1000/60);
+		    }
+		}
+	};
+
+	this.render = function(frame){
+		if (frame > this.frameCount) frame = frame-this.frameCount;
+		else if (frame < 0) frame = this.frameCount+frame;
+		this.currentFrame = frame;
+
+		this.context.clearRect ( 0 , 0 , this.canvas.width, this.canvas.height );
+		if (this.frames[frame]) this.context.drawImage(this.frames[frame].image, 0, (window.innerHeight-(window.innerWidth/16) * 9), window.innerWidth, (window.innerWidth/16) * 9);
+	};
+
+	this.closestBreakpoint = function(){
+		var closestDiff = 999;
+		var closestbreakpoint = 0;
+		var diff = 0;
+		$.each(this.breakpoints , function(i, breakpoint){
+
+			if (breakpoint < this.currentFrame)
+				 diff = this.currentFrame-breakpoint;
+			else diff = breakpoint-this.currentFrame;
+
+			if (diff <= closestDiff) {
+				closestDiff = diff;
+				if (i == 0 && closestDiff > this.frameCount-this.currentFrame) closestDiff = this.frameCount-this.currentFrame;
+				this.currentBreakpoint = closestbreakpoint = i;
+			}
+		}.bind(this));
+
+		return this.breakpoints[closestbreakpoint];
+	};
+
+	this.gotoAndPlay = function(frame){
+		$('.label').fadeOut();
+
+		var distance;
+		var startframe = this.currentFrame;
+		var endframe = frame;
+		var speed = frame-startframe;
+
+		dist1 = endframe-startframe;
+		dist2 = (dist1 > this.frameCount/2) ? dist1 - this.frameCount : this.frameCount + dist1;
+
+		if (Math.abs(dist1) > Math.abs(dist2)) distance = dist2;
+		if (Math.abs(dist2) > Math.abs(dist1)) distance = dist1;
+
+		clearInterval(this.toFrameInterval);
+		this.toFrameInterval = setInterval(function(){
+		    speed = distance/10;
+
+		   	if(distance < 0){
+	        	startframe += Math.floor(speed);
+	        	distance -= Math.floor(speed);
+	        }
+	        if(distance > 0){
+	        	startframe += Math.ceil(speed);
+	        	distance -= Math.ceil(speed);
+	        }
+
+			if (startframe == 359) startframe = 0;
+		    if (distance == 0){
+		    	$('.person-select button').removeClass('active');
+		    	$('.person-select .person'+(this.currentBreakpoint+1)).addClass('active');
+		    	$('#game-interface #label-p'+(this.currentBreakpoint+1)).fadeIn();
+		    	clearInterval(this.toFrameInterval);
+		    }
+
+		    this.render(startframe);
+	    }.bind(this), 1000/60);
+	};
+
+	this.toNextBreakpoint = function(){
+		this.currentBreakpoint++;
+		if (this.currentBreakpoint > 4) this.currentBreakpoint = 0;
+		this.gotoAndPlay(this.breakpoints[this.currentBreakpoint]);
+	};
+
+	this.toPrevBreakpoint = function(){
+		this.currentBreakpoint--;
+		if (this.currentBreakpoint < 0) this.currentBreakpoint = 4;
+		this.gotoAndPlay(this.breakpoints[this.currentBreakpoint]);
+	};
+
+	this.initFrames = function(){
+		var i;
+		for(i=1; i<this.frameCount; i++){
+
+			var num = i.toString();
+		    if (num.length < 5){
+			    zeros = '00000';
+			    zeros = zeros.substring(0, 5-num.length);
+			    num = zeros + num;
+			}
+
+		    var src = 'assets/images/carousel/'+ this.imageQuality +'-quality/PNG Test_' + num + '.jpg';
+		    this.frames.push(new Frame(src));
+		    this.gotoAndPlay(0);
+		}
+	};
+
+	this.getImageQuality = function() {
+		var quality = 'high';
+
+		if (window.innerWidth < 1500) {
+			quality = 'medium';
+		}
+		if (window.innerWidth < 950) {
+			quality = 'low';
+		}
+		if (window.innerWidth < 750) {
+			quality = 'mobile';
+		}
+		return quality;
+	};
+};
 
 var Frame = function(src){
 	this.image = new Image();
 	this.src = src;
-	//frames.push(this);
 
 	this.image.onload = function(){
-	    loadedFrames++;
-	    if (loadedFrames == totalFrames){
-
-	    	$('.dilemma').hide();
-			$('.dilemma .summery').hide();
-			$('.dilemma .question').hide();
-
-	    	render(0);
-	    	$('#carousel').swipe({excludedElements:"", swipeStatus:swipeHandler , triggerOnTouchLeave:true, threshold:null});
+	    carousel.framesLoaded++;
+	    carousel.preloadPercent = Math.ceil((carousel.framesLoaded/carousel.frameCount)*100);
+	    if (carousel.framesLoaded == carousel.frameCount){
+	    	carousel.preloadStatus = 'done';
+	    	carousel.render(0);
 	    	$('#loading-overlay').fadeOut();
 	    }
 	};
 	this.image.src = this.src;
 };
 
-function imagesLoaded(){
-	$.each(frames, function(i, frame){
-		$('#container').append("<figure class='frame'>");
-		$('#container').append( $(this.image) );
-    	$('#container').append("</figure>");
-	});
-}
-
-function render(frame){
-	if (frame > totalFrames) currentFrame = 0;
-	if (frame < 0) currentFrame = totalFrames;
-	context.clearRect ( 0 , 0 , canvas.width, canvas.height );
-	if (frames[frame]) context.drawImage(frames[frame].image, 0, (window.innerHeight-(window.innerWidth/16) * 9), window.innerWidth, (window.innerWidth/16) * 9);
-}
-
-function getClosestPerson(){
-	closestDiff = 999;
-	closestPersonFrame = 0;
-	$.each(personFrames , function(i, personFrame){
-		if (personFrame < currentFrame)
-			diff = currentFrame-personFrame;
-		else diff = personFrame-currentFrame;
-
-		if (diff <= closestDiff) {
-			closestDiff = diff;
-			closestPersonFrame = personFrame;
-			currentPerson = i;
-		}
-	});
-
-	closestPersonDistance = closestDiff;
-	return closestPersonFrame;
-}
-
-function toNextPerson(){
-	currentPerson++;
-	if (currentPerson > 4) currentPerson = 0;
-	toFrame(personFrames[currentPerson]);
-}
-
-function toPreviousPerson(){
-	console.log();
-	currentPerson--;
-	if (currentPerson < 0) currentPerson = 4;
-	toFrame(personFrames[currentPerson]);
-}
-
-function toFrame(frame){
-	$('.label').fadeOut();
-	//getClosestPerson();
-	distance = frame-currentFrame;
-	speed = distance;
-
-	if(frame > currentFrame) distance = frame-currentFrame;
-    if(frame < currentFrame) distance = currentFrame-frame;
-
-	clearInterval(toFrameInterval);
-	toFrameInterval = setInterval(function(){
-	    speed = distance/10;
-
-	   	if(frame > currentFrame){
-	   		distance -= Math.ceil(speed);
-        	currentFrame += Math.ceil(speed);
-        }
-        if(frame < currentFrame){
-        	distance -= Math.ceil(speed);
-        	currentFrame -= Math.ceil(speed);
-        }
-
-		render(currentFrame);
-
-	    if (currentFrame == frame){
-	    	$('.person-select button').removeClass('active');
-	    	$('.person-select .person'+(currentPerson+1)).addClass('active');
-	    	$('#game-interface #label-p'+(currentPerson+1)).fadeIn();
-	    	clearInterval(toFrameInterval);
-	    }
-
-
-    }, 1000/60);
-}
-
-function swipeHandler(event, phase, direction, distance) {
-
-	if(direction == 'up' || direction == 'down')
-		return;
-
-	var tempFrame;
-    if (phase == "start"){
-		clearInterval(swipeEaseHandler);
-        startScrollTime = new Date();
-    }
-
-    if (distance > 20){
-    $('.label').fadeOut(100);
-
-    if(direction == 'left')
-     	tempFrame = currentFrame + Math.floor(distance/10);
-    if(direction == 'right')
-        tempFrame = currentFrame - Math.floor(distance/10);
-
-	if(tempFrame)render(tempFrame);
-    if (phase == "end"){
-     	var timeInt = new Date()-startScrollTime;
-        var scrollEase_dx = (distance/timeInt)*(1.2/(timeInt/1000));
-
-        swipeEaseHandler = setInterval(function(){
-
-        	scrollEase_dx *= 0.95;
-        	if(direction == 'left')
-		       	 currentFrame += Math.floor(scrollEase_dx);
-		    if(direction == 'right')
-		         currentFrame -= Math.floor(scrollEase_dx);
-
-        	if (scrollEase_dx < 1){
-        		toFrame(getClosestPerson());
-        		clearInterval(swipeEaseHandler);
-        	}
-
-
-        	render(currentFrame);
-
-        }, 1000/60);
-
-        currentFrame = tempFrame;
-    }
-}
-}
-
-var i;
-for(i=1; i<totalFrames; i++){
-
-	var str = i.toString();
-    if (str.length < 5){
-	    zeros = '00000';
-	    zeros = zeros.substring(0, 5-str.length);
-	    str = zeros + str;
-	}
-
-    var src = 'assets/images/carousel/'+ quality +'-quality/PNG Test_' + str + '.jpg';
-    frames.push(new Frame(src));
-    toFrame(0);
-}
-window.scrollTo(0,1);
-$(document).ready(function(){
-	$('#game-interface .person-select button').click(function(){
-		var frame = $(this).attr('data-frame');
-		$.each(personFrames ,function(i,personFrame){
-			if (frame == personFrame) currentPerson = i;
-		});
-		toFrame(frame);
-	});
-
-	$('#game-interface .btn-next').click(toNextPerson);
-	$('#game-interface .btn-previous').click(toPreviousPerson);
-});
-
-window.onresize = function(){
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-	render(currentFrame);
+var carousel = new Carousel('carousel');
+var initCarousel = function(){
+	carousel.init();
 };
