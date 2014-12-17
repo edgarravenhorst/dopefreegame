@@ -21,6 +21,14 @@
 
 			{{ Form::close() }}
 
+
+			<script>
+
+				$('.submit').bind("click touchend", function(){
+					$('#background-audio').get(0).play();
+				});
+
+			</script>
 		</section>
 	</section>
 @stop

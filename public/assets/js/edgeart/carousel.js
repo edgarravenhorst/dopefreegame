@@ -26,8 +26,8 @@ var Carousel = function(canvasID){
 
 		this.initFrames();
 
-		$('#game-interface .btn-next').click(this.toNextBreakpoint.bind(this));
-		$('#game-interface .btn-previous').click(this.toPrevBreakpoint.bind(this));
+		$('#game-interface .btn-next').bind("click touchend", this.toNextBreakpoint.bind(this));
+		$('#game-interface .btn-previous').bind("click touchend", this.toPrevBreakpoint.bind(this));
 		$('body').swipe({excludedElements:"", swipeStatus:this.onSwipeHandler.bind(this) , triggerOnTouchLeave:true, threshold:null});
 
 		window.onresize = function(){
@@ -36,7 +36,7 @@ var Carousel = function(canvasID){
 			this.render(this.currentFrame);
 		}.bind(this);
 
-		$('#game-interface .person-select button').click(function(e){
+		$('#game-interface .person-select button').bind("click touchend", function(e){
 			var frame = $(e.currentTarget).attr('data-frame');
 			$.each(this.breakpoints ,function(i , breakpoint){
 				if (frame == breakpoint) this.currentBreakpoint = i;
