@@ -94,11 +94,11 @@ body.terms {
      margin:35px 0;
      padding:5px 0;
      padding-left:50px;
-     background-image:url('../images/btn-select.png');
+     background-image:url('../images/game/btn-select.png');
      background-size:auto 100%;
      background-position:0;
      background-repeat:no-repeat;
-     &.checked{background-image:url('../images/btn-select-checked.png');}
+     &.checked{background-image:url('../images/game/btn-select-checked.png');}
      @include single-transition(background-image, 0.2s);
   }
 
@@ -106,7 +106,7 @@ body.terms {
      cursor:pointer;
      width:150px;
      height:100px;
-     background-image:url('../images/btn-start-game.png');
+     background-image:url('../images/game/btn-start-game.png');
      background-size:contain;
      background-position:0;
      background-repeat:no-repeat;
@@ -133,13 +133,96 @@ body.terms {
 }
 
 #game-interface {
-   #video-container{
+
+  .btn-previous, .btn-next {
+    position:absolute;
+    background:none;
+    border:none;
+    background-size:contain;
+    background-position:0;
+    background-repeat:no-repeat;
+    top:50%;
+    height:56px;
+    margin-top:-28px;
+    width:40px;
+    outline:none;
+    cursor:pointer;
+    &:selected {
+      border:none;
+    }
+  }
+  .btn-previous {
+    background-image:url('../images/game/btn-previous.png');
+    left:20px;
+  }
+  .btn-next {
+    background-image:url('../images/game/btn-next.png');
+    right:20px;
+  }
+
+  footer{
+    @include positionAt(auto,0,5px,0);
+
+    .person-select {
+      float:right;
+      .person1, .person2, .person3, .person4, .person5 {
+        position:relative;
+        background:none;
+        background-size:contain;
+        background-position:0;
+        background-repeat:no-repeat;
+
+        border:none;
+        outline:none;
+        cursor:pointer;
+
+        width:100px;
+        height:60px;
+
+        margin:0 5px;
+        @include single-transition(background-image, 0.2s);
+
+        .overlay {
+          background-image:url('../images/game/personselect/btn-person-overlay.png');
+          background-size:contain;
+          background-position:0;
+          background-repeat:no-repeat;
+          @include positionAt(0,0,0,0);
+          opacity:0;
+        }
+
+        &.finished {
+          .overlay { opacity:1; }
+        }
+      }
+
+      .person1 { background-image:url('../images/game/personselect/btn-person1.png'); }
+      .person2 { background-image:url('../images/game/personselect/btn-person2.png'); }
+      .person3 { background-image:url('../images/game/personselect/btn-person3.png'); }
+      .person4 { background-image:url('../images/game/personselect/btn-person4.png'); }
+      .person5 { background-image:url('../images/game/personselect/btn-person5.png'); }
+
+      .person1:hover, .person1.active { background-image:url('../images/game/personselect/btn-person1-hover.png'); }
+      .person2:hover, .person2.active { background-image:url('../images/game/personselect/btn-person2-hover.png'); }
+      .person3:hover, .person3.active { background-image:url('../images/game/personselect/btn-person3-hover.png'); }
+      .person4:hover, .person4.active { background-image:url('../images/game/personselect/btn-person4-hover.png'); }
+      .person5:hover, .person5.active { background-image:url('../images/game/personselect/btn-person5-hover.png'); }
+    }
+  }
+
+  .label{
+    position:absolute;
+    left:20%;
+    top:30%;
+    display:inline-block;
+    cursor:pointer;
+    h2{line-height:100%;}
+  }
+}
+
+.videocontainer{
     display:none;
-     #main-video{
-        position:fixed;
-        left:0;
-        top:0;
-        z-index:44444;
+     video{
       }
 
         #skip-btn
@@ -179,7 +262,6 @@ body.terms {
           left:0;
           bottom:0;
           height:30px;
-          display:none;
           z-index:555555;
           background-color:#000;
           width:100%;
@@ -210,92 +292,6 @@ body.terms {
       }
 
    }
-
-  .btn-previous, .btn-next {
-    position:absolute;
-    background:none;
-    border:none;
-    background-size:contain;
-    background-position:0;
-    background-repeat:no-repeat;
-    top:50%;
-    height:56px;
-    margin-top:-28px;
-    width:40px;
-    outline:none;
-    cursor:pointer;
-    &:selected {
-      border:none;
-    }
-  }
-  .btn-previous {
-    background-image:url('../images/btn-previous.png');
-    left:20px;
-  }
-  .btn-next {
-    background-image:url('../images/btn-next.png');
-    right:20px;
-  }
-
-  footer{
-    @include positionAt(auto,0,5px,0);
-
-    .person-select {
-      float:right;
-      .person1, .person2, .person3, .person4, .person5 {
-        position:relative;
-        background:none;
-        background-size:contain;
-        background-position:0;
-        background-repeat:no-repeat;
-
-        border:none;
-        outline:none;
-        cursor:pointer;
-
-        width:100px;
-        height:60px;
-
-        margin:0 5px;
-        @include single-transition(background-image, 0.2s);
-
-        .overlay {
-          background-image:url('../images/btn-person-overlay.png');
-          background-size:contain;
-          background-position:0;
-          background-repeat:no-repeat;
-          @include positionAt(0,0,0,0);
-          opacity:0;
-        }
-
-        &.finished {
-          .overlay { opacity:1; }
-        }
-      }
-
-      .person1 { background-image:url('../images/btn-person1.png'); }
-      .person2 { background-image:url('../images/btn-person2.png'); }
-      .person3 { background-image:url('../images/btn-person3.png'); }
-      .person4 { background-image:url('../images/btn-person4.png'); }
-      .person5 { background-image:url('../images/btn-person5.png'); }
-
-      .person1:hover, .person1.active { background-image:url('../images/btn-person1-hover.png'); }
-      .person2:hover, .person2.active { background-image:url('../images/btn-person2-hover.png'); }
-      .person3:hover, .person3.active { background-image:url('../images/btn-person3-hover.png'); }
-      .person4:hover, .person4.active { background-image:url('../images/btn-person4-hover.png'); }
-      .person5:hover, .person5.active { background-image:url('../images/btn-person5-hover.png'); }
-    }
-  }
-
-  .label{
-    position:absolute;
-    left:20%;
-    top:30%;
-    display:inline-block;
-    cursor:pointer;
-    h2{line-height:100%;}
-  }
-}
 
 .dilemma {
  display:none;
@@ -349,12 +345,12 @@ body.terms {
         padding:2px;
         margin-left:0;
         padding-left:35px;
-        background-image:url('../images/btn-select.png');
+        background-image:url('../images/game/btn-select.png');
         background-size:auto 100%;
         background-position:0 0;
         background-repeat:no-repeat;
-        &.checked{background-image:url('../images/btn-select-checked.png');}
-        &.finished{background-image:url('../images/btn-select-checked.png');}
+        &.checked{background-image:url('../images/game/btn-select-checked.png');}
+        &.finished{background-image:url('../images/game/btn-select-checked.png');}
         margin-bottom:5px;
          @include single-transition(background-image, 0.2s);
       }
@@ -380,7 +376,7 @@ body.terms {
     @include positionAt(10px, 10px, auto, auto);
     background:none;
     border:none;
-    background-image:url('../images/btn-close.png');
+    background-image:url('../images/game/btn-close.png');
     background-size:contain;
     background-position:50%;
     background-repeat:no-repeat;
@@ -395,7 +391,7 @@ body.terms {
 #loading-overlay{
   @include positionAt(0,0,0,0);
   background-color:#000;
-  background-image:url('../images/temp-loading.png');
+  background-image:url('../images/game/temp-loading.png');
   background-size:293px 158px;
   background-position:50%;
   background-repeat:no-repeat;
@@ -405,7 +401,7 @@ body.terms {
 #score-overlay {
   position:absolute;
   left:20%;
-  background-image:url('../images/large-vertical-down-arrow.png');
+  background-image:url('../images/game/large-vertical-down-arrow.png');
   background-size:auto 3500px;
   background-position:50% -3500px;
   background-repeat:no-repeat;

@@ -212,11 +212,7 @@ var Frame = function(src){
 	this.image.onload = function(){
 	    carousel.framesLoaded++;
 	    carousel.preloadPercent = Math.ceil((carousel.framesLoaded/carousel.frameCount)*100);
-	    if (carousel.framesLoaded == carousel.frameCount){
-	    	carousel.preloadStatus = 'done';
-	    	carousel.render(0);
-	    	$('#loading-overlay').fadeOut();
-	    }
+	    app.updateLoadingStatus();
 	};
 	this.image.src = this.src;
 };

@@ -1,18 +1,19 @@
 @extends('public.layout.ajaxpage')
 
 @section('page-content')
+	<!-- Voor de minigame
+		http://dropthebit.com/592/pathanimator-moving-along-an-svg-path/
+	-->
 	<script> var userID = {{$user->id}}</script>
 	<section id='loading-overlay' class=''>
-
+		<span class='counter'></span>
 	</section>
 
 	<section id='game-carousel'>
 		<canvas id='carousel' width='1280' height="720"></canvas>
 	</section>
 
-
 	@include('public.elements.game.interface')
-
 
 	@foreach ($questions as $question)
 		@include('public.elements.game.dilemma')

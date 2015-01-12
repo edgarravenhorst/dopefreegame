@@ -9,6 +9,7 @@ var Application = function(){
 
 	this.scoreFlag = $('#score-overlay');
 	this.scoreFlag.css('z-index', '-1');
+	this.loadedPercent = 0;
 
 	this.init = function(){
 		$.each($('.dilemma'), function(i, htmlobj){
@@ -49,6 +50,24 @@ var Application = function(){
 
 	this.onDilemmaDone = function(){
 		this.scoreFlag.css('z-index', '-1');
+	};
+
+	this.updateLoadingStatus = function(status) {
+
+		videosPercent = vControl.preloadPercent;
+		imagesPercent = carousel.preloadPercent;
+
+		if (!videosPercent) videosPercent = 0;
+		if (!imagesPercent) imagesPercent = 0;
+
+		this.loadedPercent = Math.floor((videosPercent+imagesPercent)/2);
+		if ( this.loadedPercent == 100 ){
+			carousel.render(0);
+	    	$('#loading-overlay').fadeOut();
+	    }
+		$('#loading-overlay .counter').html(this.loadedPercent);
+		console.log('loaded', this.loadedPercent, "%");
+
 	};
 };
 
@@ -167,4 +186,3 @@ var Dilemma = function(id, htmlobj){
 
 var app = new Application();
 app.init();
-
