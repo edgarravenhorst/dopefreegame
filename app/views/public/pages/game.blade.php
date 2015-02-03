@@ -6,7 +6,10 @@
 	-->
 	<script> var userID = {{$user->id}}</script>
 	<section id='loading-overlay' class=''>
-		<span class='counter'></span>
+        <section id='loadingVisual'>
+            {{HTML::image('/assets/images/loader.gif')}}
+            <p>Laden <span class='counter'></span>% Dope Free Challenge</p>
+        </section>
 	</section>
 
 	<section id='game-carousel'>
@@ -27,6 +30,7 @@
 	</section>
 
 	{{ HTML::script('assets/js/external/jquery.touchSwipe.js') }}
+    {{ HTML::script('assets/js/external/blur.min.js') }}
 	{{ HTML::script('assets/js/edgeart/carousel.js') }}
 	{{ HTML::script('assets/js/edgeart/videocontroller.js') }}
 	{{ HTML::script('assets/js/edgeart/game.js') }}

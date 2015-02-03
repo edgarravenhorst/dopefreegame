@@ -4,10 +4,8 @@
   		<source src="{{ asset('assets/audio/bgsound.mp3') }}" type="audio/mpeg">
 	</audio>
 	<header>
-		@if(Auth::user())
-			{{ link_to_route('user_logout', 'Uitloggen') }}
-		@endif
-		<button class='audio-control'></button>
+		{{ link_to_route('user_logout', 'Uitloggen') }}
+		<button class='mute-btn'></button>
 	</header>
 	<footer>
 		<ul class='sponsors'>

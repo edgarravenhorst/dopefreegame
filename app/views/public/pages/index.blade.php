@@ -4,7 +4,7 @@
 	<section id='ajaxContainer'>
 		<figure class='logo'></figure>
 
-		<section id='login' class='midway-horizontal midway-vertical'>
+		<section id='login' class='centered'>
 			<ul class='errors'></ul>
 
 			{{ Form::open(array('route' => 'user_login','autocomplete' => 'off')) }}
@@ -20,8 +20,6 @@
 				{{ Form::submit('', array('class' =>'submit'))}}
 
 			{{ Form::close() }}
-
-
 			<script>
 
 				$('.submit').bind("click touchend", function(){

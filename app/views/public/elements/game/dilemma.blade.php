@@ -6,16 +6,16 @@
 
 			<section class='summery'>
 				<section class='content '>
-					<h1>Naam Persoon {{$question->questionID}}</h1>
+					<h1>{{$question->pFirstname}} {{$question->pLastname}}</h1>
 					<table>
-						<tr><td>Geboortedatum</td><td>00 Maand 1900</td></tr>
-						<tr><td>Geboorteplaats</td><td>Plaatsnaam</td></tr>
-						<tr><td>Woonplaats</td><td>Plaatsnaam</td></tr>
-						<tr><td>Lengte</td><td>0,00 meter</td></tr>
-						<tr><td>Gewicht</td><td>00 Kilo</td></tr>
-						<tr><td>Rustpols</td><td>00</td></tr>
-						<tr><td>Maximum hartslag</td><td>000</td></tr>
-						<tr><td>Huidige ploeg</td><td>Ploegnaam</td></tr>
+						<tr><td>Geboortedatum</td><td><strong>{{$question->pBirthdate}}</strong></td></tr>
+						<tr><td>Geboorteplaats</td><td><strong>{{$question->pBirthplace}}</strong></td></tr>
+						<tr><td>Woonplaats</td><td><strong>{{$question->pCity}}</strong></td></tr>
+						<tr><td>Lengte</td><td><strong>{{$question->pLength}}</strong></td></tr>
+						<tr><td>Gewicht</td><td><strong>{{$question->pWeight}}</strong></td></tr>
+						<tr><td>Rustpols</td><td><strong>{{$question->pMinHearthrate}}</strong></td></tr>
+						<tr><td>Maximum hartslag</td><td><strong>{{$question->pMaxHearthrate}}</strong></td></tr>
+						<tr><td>Huidige ploeg</td><td><strong>{{$question->pTeam}}</strong></td></tr>
 					</table>
 				</section>
 				<button class='btn-start-challenge'>
@@ -28,7 +28,7 @@
 			<section class='question'>
 				<section class='content'>
 					<section class='inner'>
-					<h1>Dilemma Naam {{ $question->questionID }}</h1>
+					<h1>{{$question->pFirstname}} {{$question->pLastname}}</h1>
 					<p>{{ $question->question }}</p>
 					<h1>Wat zou jij doen?</h1>
 					<ul class='answers'>

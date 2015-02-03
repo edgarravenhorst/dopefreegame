@@ -1,11 +1,11 @@
-$(document).ready(function(){
-	var scrollbar;
-	var scrollInitialized = false;
-	function onresizeFunc(){
-		var windowW = window.innerWidth;
+var scrollbar;
+var scrollInitialized = false;
+
+function initScrollbar(elem){
+    var windowW = window.innerWidth;
 
 		if (windowW > 950 && !scrollInitialized) {
-			scrollbar = $('.scroll-content').jScrollPane({
+			scrollbar = $(elem).jScrollPane({
 				hideFocus :true
 			}).data().jsp;
 			scrollInitialized = true;
@@ -16,7 +16,3 @@ $(document).ready(function(){
 			scrollInitialized = false;
 		}
 	}
-
-	window.onresize = onresizeFunc;
-	onresizeFunc();
-});

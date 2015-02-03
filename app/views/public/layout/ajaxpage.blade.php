@@ -9,6 +9,7 @@
 		{{ HTML::style('assets/css/jquery.jscrollpane.css') }}
 		{{ HTML::style('assets/css/site.css') }}
 	</head>
+
 	<body>
 		<script>
 			$("body").removeAttr("class");
@@ -16,4 +17,5 @@
 		</script>
 		@yield('page-content')
 	</body>
+
 </html>

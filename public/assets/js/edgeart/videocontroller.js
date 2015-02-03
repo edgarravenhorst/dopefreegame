@@ -1,70 +1,168 @@
 var VControl = function(){
 
-	this.currentvid = '';
-	this.videos;
+    this.persons = 5;
+    this.videosToPreload = 0;
+    this.checkCounter = 0;
+    this.preloadPercent;
+    this.debug = false;
+    this.videos = Array();
+    this.controls = $('#video-controls');
+    this.currentVideo;
 
-	this.init = function(){
-		this.preload('p1');
-	};
+    this.init = function(){
+        for(var i=1; i<(this.persons+1);i++){
+            this.initVideos('p'+i);
+        }
 
-	this.preload = function(name){
+        $('#video-controls #skip-btn').on('click touchend', function(){
+            console.log(this.currentVideo);
+            this.currentVideo.elem.currentTime = this.currentVideo.elem.duration;
+        }.bind(this));
+        //$('#game-interface .label').on('click touchend', this.showDilemma.bind(this));
+        //$('#game-interface .label').on('click touchend', this.showDilemma.bind(this));
 
-		this.videos = Array(
-			'https://s3-us-west-2.amazonaws.com/dopefreegame/videos/'+name+'/antwoord.mp4',
-			'https://s3-us-west-2.amazonaws.com/dopefreegame/videos/'+name+'/antwoord_a.mp4',
-			'https://s3-us-west-2.amazonaws.com/dopefreegame/videos/'+name+'/antwoord_b.mp4',
-			'https://s3-us-west-2.amazonaws.com/dopefreegame/videos/'+name+'/antwoord_c.mp4',
-			'https://s3-us-west-2.amazonaws.com/dopefreegame/videos/'+name+'/antwoord_d.mp4',
-			'https://s3-us-west-2.amazonaws.com/dopefreegame/videos/'+name+'/antwoord_e.mp4',
-			'https://s3-us-west-2.amazonaws.com/dopefreegame/videos/'+name+'/verhaal.mp4'
-		);
+    };
 
-		for(var i=0; i<this.videos.length; i++){
+    this.initVideos = function(pid){
 
-			var obj,source;
-			//console.log(i);
-			obj = document.createElement('video');
-			$(obj).attr('id','video'+i);
-			$(obj).attr('muted', 'muted');
-			$(obj).attr('autostart', 'autostart');
-			$(obj).attr('preload', 'metadata');
-			$(obj).attr('style', 'display:none;');
-			source = document.createElement('source');
-			$(source).attr('type', 'video/mp4');
-			$(source).attr('src', this.videos[i]);
+        console.log("PID: "+pid);
 
+        this.amazonURL = 'https://s3-us-west-2.amazonaws.com/dopefreegame/videos/'+pid+'/';
 
-			$(obj).append(source);
-			$("#dilemma-"+name+" .videocontainer").append(obj);
-			obj.play();
-			//console.log(i,name);
-			this.load(i,name);
-			//console.log(name);
-		}
-	};
+        this.videoObj = {
+            id: pid,
+            videodata: [
+                {name: 'main', url: this.amazonURL+"verhaal.mp4", preload:true},
+                {name: 'answer', url: this.amazonURL+"antwoord.mp4", preload:true},
+                {name: 'answer1', url: this.amazonURL+"antwoord_a.mp4", preload:true},
+                {name: 'answer2', url: this.amazonURL+"antwoord_b.mp4", preload:true},
+                {name: 'answer3', url: this.amazonURL+"antwoord_c.mp4", preload:true},
+                {name: 'answer4', url: this.amazonURL+"antwoord_d.mp4", preload:true},
+                {name: 'answer5', url: this.amazonURL+"antwoord_e.mp4", preload:true}
+            ]
+        };
 
-	this.load = function(i,name){
-		var video = $('#video'+i).get(0);
-		video.oncanplay = function() {
-			console.log(name + " : " + (i+1) + " : " +(this.videos.length));
-			video.pause();
-			if((i+1) == (this.videos.length)){
-				console.log('done pre-loading');
-			}
+        $.each(this.videoObj.videodata, function(i,video){
+            this.createVideoTag(pid,video.name,video.url,video.preload);
+            if(video.preload && this.debug==false){
+                this.videosToPreload++;
+                this.preload(pid,video.name);
+            }
+            else{
+                this.preloadPercent = 100;
+                app.updateLoadingStatus();
+            }
+        }.bind(this))
+    }
 
-		}.bind(this);
+    this.preload = function(id, name){
 
+        var videoObject = $('#dilemma-'+id+' video.'+name).get(0);
 
-	};
+        videoObject.oncanplay = function() {
 
-	this.play = function (id){
+            this.videos.push({
+                id:id,
+                name:name,
+                elem:videoObject
+            });
 
-	};
+            videoObject.pause();
+            videoObject.currentTime = 0;
 
-	this.pause = function (id){
+            videoObject.ontimeupdate = function(e) {
+                var timeInMinutes = this.formatTime(e.currentTarget.currentTime);
+                this.controls.find('#time-indicator').text(timeInMinutes);
+            }.bind(this);
 
-	};
+            this.checkCounter++;
+            this.preloadPercent = (this.checkCounter/this.videosToPreload) * 100;
+            //console.log(Math.ceil(this.preloadPercent)+'%');
+            app.updateLoadingStatus();
+        }.bind(this);
+    }
 
+    this.formatTime = function(seconds) {
+        minutes = Math.floor(seconds / 60);
+        minutes = (minutes >= 10) ? minutes : "0" + minutes;
+        seconds = Math.floor(seconds % 60);
+        seconds = (seconds >= 10) ? seconds : "0" + seconds;
+        return minutes + ":" + seconds;
+    }
+
+    this.createVideoTag = function(id,name,url,preload){
+
+        var obj,source;
+        obj = document.createElement('video');
+        $(obj).attr('class',name);
+        $(obj).attr('muted', 'muted');
+        $(obj).attr('width', '100%');
+        $(obj).attr('height', 'auto');
+        if(preload)
+            $(obj).attr('preload', 'auto');
+        else
+            $(obj).attr('preload', 'none');
+        $(obj).attr('style', 'display:none;');
+        source = document.createElement('source');
+        $(source).attr('type', 'video/mp4');
+        $(source).attr('src',url);
+
+        $(obj).append(source);
+        $("#dilemma-"+id+" .videocontainer").append(obj);
+        if(preload)
+            obj.play();
+    }
+
+    this.play = function(id, name) {
+        var pid = 'p'+id;
+        var videoObj = {};
+        var videoElem;
+
+        $.each(this.videos, function(i, video){
+            if (video.id == pid && video.name == name) {
+                video.elem.play();
+                video.elem.muted = false;
+                audioControl.setMute(true);
+                videoElem = video.elem;
+                videoObj = video;
+            }
+        });
+
+        this.controls.find('#time-duration').text(' - ' + this.formatTime(videoElem.duration));
+        this.currentVideo = videoObj;
+
+        return videoElem;
+    }
+
+    this.pause = function(id, name){
+        var pid = 'p'+id;
+        var videoElem;
+
+        $.each(this.videos, function(i, video){
+            if (video.id == pid && video.name == name) {
+                video.elem.pause();
+                video.elem.muted = true;
+                audioControl.setMute(false);
+                videoElem = video.elem;
+            }
+        });
+
+        return videoElem;
+    }
+
+    this.reset = function(id, name){
+        var pid = 'p'+id;
+        var videoElem;
+
+        $.each(this.videos, function(i, video){
+            if (video.id == pid && video.name == name) {
+                video.elem.currentTime = 0;
+                videoElem = video.elem;
+            }
+        });
+
+        return videoElem;
+    }
 };
 
 var vControl = new VControl();

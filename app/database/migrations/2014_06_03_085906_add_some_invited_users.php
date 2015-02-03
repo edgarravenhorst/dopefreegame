@@ -38,6 +38,7 @@ class AddSomeInvitedUsers extends Migration {
 			'last_name' => 'Geen idee',
 			'club' => 'GroepUtrecht',
 			'licence_nr' => '1',
+            'agreed_to_terms' => '0',
 
 			'created_at' => date('Y-m-d H:m:s'),
 			'updated_at' => date('Y-m-d H:m:s')

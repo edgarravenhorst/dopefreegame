@@ -6,7 +6,7 @@ class PageController extends BaseController {
 		if (Auth::user())
 			return Redirect::route('terms');
 
-		$view = View::make('public.pages.login');
+		$view = View::make('public.pages.index');
 		$view->title = 'Welkom';
 		$view->bodyClass = 'loginscreen';
 		$view->activationcode;
@@ -66,13 +66,14 @@ class PageController extends BaseController {
 
 		$view->finished = '';
 
+        $view->submission = $submission;
 		$view->questions = $questions;
 
 		return $view;
 	}
 
 	function show_congrats() {
-		$view = View::make('public.pages.congrats');
+		$view = View::make('public.pages.finish');
 		$view->title = 'Gefeliciteerd';
 		$view->bodyClass = 'game';
 		$view->user = Auth::user();

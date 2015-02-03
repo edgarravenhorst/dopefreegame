@@ -183,7 +183,7 @@ var Carousel = function(canvasID){
 			    num = zeros + num;
 			}
 
-		    var src = 'assets/images/carousel/'+ this.imageQuality +'-quality/PNG Test_' + num + '.jpg';
+		    var src = 'assets/images/carousel/'+ this.imageQuality +'-quality/_Carousel_' + num + '.jpg';
 		    this.frames.push(new Frame(src));
 		    this.gotoAndPlay(0);
 		}

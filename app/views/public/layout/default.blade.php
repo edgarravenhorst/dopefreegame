@@ -16,11 +16,13 @@
 		@include('public.elements.main-interface')
 
 		@yield('page-content')
+
+        {{ HTML::script('assets/js/edgeart/scrollbar.js') }}
 		{{ HTML::script('assets/js/external/midway.min.js') }}
 		{{ HTML::script('assets/js/external/jquery.jscrollpane.min.js') }}
 		{{ HTML::script('assets/js/external/jquery.mousewheel.js') }}
+		{{ HTML::script('assets/js/edgeart/audiocontroller.js') }}
 		{{ HTML::script('assets/js/edgeart/pagecontroller.js') }}
-
 
 	</body>
 </html>

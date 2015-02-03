@@ -1,62 +1,40 @@
 <section id='game-interface'>
 
-		<button class='btn-previous'></button>
-		<button class='btn-next'></button>
+    <button class='btn-previous'></button>
+    <button class='btn-next'></button>
 
-		<section id='label-p1' data-person='1' class='label'>
-			<h2><span class='color-1'>
-				Challenge 1</span><br />
-				Voornaam<br />
-				Achternaam<br />
-				<span class='font-2'>Taakomschrijving</span>
-			</h2>
-		</section>
-		<section id='label-p2' data-person='2' class='label'>
-			<h2><span class='color-1'>
-				Challenge 2</span><br />
-				Voornaam<br />
-				Achternaam<br />
-				<span class='font-2'>Taakomschrijving</span>
-			</h2>
-		</section>
-		<section id='label-p3' data-person='3' class='label'>
-			<h2><span class='color-1'>
-				Challenge 3</span><br />
-				Voornaam<br />
-				Achternaam<br />
-				<span class='font-2'>Taakomschrijving</span>
-			</h2>
-		</section>
-		<section id='label-p4' data-person='4' class='label'>
-			<h2><span class='color-1'>
-				Challenge 4</span><br />
-				Voornaam<br />
-				Achternaam<br />
-				<span class='font-2'>Taakomschrijving</span>
-			</h2>
-		</section>
-		<section id='label-p5' data-person='5' class='label'>
-			<h2><span class='color-1'>
-				Challenge 5</span><br />
-				Voornaam<br />
-				Achternaam<br />
-				<span class='font-2'>Taakomschrijving</span>
-			</h2>
-		</section>
+    @foreach ($questions as $question)
+    <section id='label-p{{$question->questionID}}' data-person='{{$question->questionID}}' class='label'>
+        <h2><span class='color-1'>
+            Challenge {{$question->questionID}}</span><br />
+            {{$question->pFirstname}}<br />
+            {{$question->pLastname}}<br />
+            <span class='font-2'>{{$question->pProfession}}</span>
+        </h2>
+        <span class='arrow'></span>
+    </section>
+    @endforeach
 
-		<footer>
-			<ul class='sponsors'>
-				<li class='logo-knwu'></li>
-				<li class='logo-dopefree'></li>
-				<li class='logo-authoriteit'></li>
-			</ul>
+    <footer>
+        <section id='sponsors'></section>
 
-			<section class='person-select'>
-				<button data-frame="0" class='person1'><span class='overlay'></span></button>
-				<button data-frame="72" class='person2'><span class='overlay'></span></button>
-				<button data-frame="144" class='person3'><span class='overlay'></span></button>
-				<button data-frame="216" class='person4'><span class='overlay'></span></button>
-				<button data-frame="288" class='person5'><span class='overlay'></span></button>
-			</section>
-		</footer>
-	</section>
+        <section id='scores'>
+            <ul class='scores_a'>
+                <li class='score_challenge'>Challenge x score: <span class='value'>0000</span></li>
+                <li class='score_minigame'>Mini game score: <span class='value'>0000</span></li>
+            </ul>
+            <ul class='scores_b'>
+                <li class='score_total'>Jouw totaal score: <span class='value'>{{$submission->score}}</span></li>
+                <li class='score_club'>Wielers Utrecht: <span class='value'>0431</span></li>
+            </ul>
+        </section>
+
+        <section class='person-select'>
+            <button data-frame="0" class='person1'><span class='overlay'></span></button>
+            <button data-frame="72" class='person2'><span class='overlay'></span></button>
+            <button data-frame="144" class='person3'><span class='overlay'></span></button>
+            <button data-frame="216" class='person4'><span class='overlay'></span></button>
+            <button data-frame="288" class='person5'><span class='overlay'></span></button>
+        </section>
+    </footer>
+</section>

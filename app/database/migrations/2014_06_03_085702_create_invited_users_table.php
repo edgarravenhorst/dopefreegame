@@ -24,6 +24,7 @@ class CreateInvitedUsersTable extends Migration {
 			$table->string('last_name');
 			$table->string('club');
 			$table->integer('licence_nr');
+            $table->integer('agreed_to_terms');
 			
 			$table->timestamps();
 		});

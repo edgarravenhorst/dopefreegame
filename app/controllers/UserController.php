@@ -71,7 +71,7 @@ class UserController extends BaseController {
 
 	public function user_logout(){
 		Auth::logout();
-		return Redirect::route('homepage');
+		return Redirect::route('ajax');
 	}
 
 }
