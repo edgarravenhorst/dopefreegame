@@ -1,5 +1,104 @@
 var VControl = function(){
 
+    this.personCount = 5;
+
+    this.videos = []
+
+    this.videosToPreload = [];
+    this.preloadedCount = 0;
+
+    this.amazonURL = 'https://s3-us-west-2.amazonaws.com/dopefreegame/videos/';
+
+    this.init = function(){
+        this.setupVideoData();
+    }
+
+    this.setupVideoData = function(){
+
+        for(var i=1; i< (this.personCount+1); i++){
+            pid = 'p'+i;
+            this.amazonURL += pid + '/';
+
+            var videoObj = {
+                id: pid,
+                videodata: [
+                    {name: 'main', url: this.amazonURL+"verhaal.mp4", preload:true},
+                    {name: 'answer', url: this.amazonURL+"antwoord.mp4", preload:false},
+                    {name: 'answer1', url: this.amazonURL+"antwoord_a.mp4", preload:false},
+                    {name: 'answer2', url: this.amazonURL+"antwoord_b.mp4", preload:false},
+                    {name: 'answer3', url: this.amazonURL+"antwoord_c.mp4", preload:false},
+                    {name: 'answer4', url: this.amazonURL+"antwoord_d.mp4", preload:false},
+                    {name: 'answer5', url: this.amazonURL+"antwoord_e.mp4", preload:false}
+                ]
+            };
+
+            $.each(videoObj.videodata, function(i, videoData){
+                var videoObj = this.createVideoTag(pid, videoData);
+                if(videoData.preload){
+                    this.videosToPreload.push(videoObj);
+                }
+            }.bind(this))
+        }
+    }
+
+    this.preloadVideo = function(videoObject, onCompleteFunc ){
+
+        videoObject.addEventListener("canplay", function(e){
+
+
+
+        }.bind(this))
+
+    }
+
+    this.getVideo = function(){
+        var selectedVideo;
+        $.each(this.videos, function(i, video){
+            if (video.id == pid && video.name == name)
+                selectedVideo = video
+        });
+        return selectedVideo
+    }
+
+    this.createVideoTag = function(id, videoData){
+
+        var obj,source;
+        obj = document.createElement('video');
+        $(obj).attr('class',videoData.name);
+        $(obj).attr('muted', 'muted');
+        $(obj).attr('width', '100%');
+        $(obj).attr('height', 'auto');
+        $(obj).attr('preload', 'none');
+        //$(obj).attr('autoplay', 'true');
+        $(obj).attr('style', 'display:none;');
+        source = document.createElement('source');
+        $(source).attr('type', 'video/mp4');
+        $(source).attr('src',videoData.url);
+        $(obj).append(source);
+
+        $("#dilemma-"+id+" .videocontainer").append(obj);
+        this.videos.push(obj);
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+var VControl = function(){
+
     this.persons = 5;
     this.videosToPreload = 0;
     this.checkCounter = 0;
@@ -15,7 +114,7 @@ var VControl = function(){
         }
 
         $('#video-controls #skip-btn').on('click touchend', function(){
-            console.log(this.currentVideo);
+            //console.log(this.currentVideo);
             this.currentVideo.elem.currentTime = this.currentVideo.elem.duration;
         }.bind(this));
         //$('#game-interface .label').on('click touchend', this.showDilemma.bind(this));
@@ -33,12 +132,12 @@ var VControl = function(){
             id: pid,
             videodata: [
                 {name: 'main', url: this.amazonURL+"verhaal.mp4", preload:true},
-                {name: 'answer', url: this.amazonURL+"antwoord.mp4", preload:true},
-                {name: 'answer1', url: this.amazonURL+"antwoord_a.mp4", preload:true},
-                {name: 'answer2', url: this.amazonURL+"antwoord_b.mp4", preload:true},
-                {name: 'answer3', url: this.amazonURL+"antwoord_c.mp4", preload:true},
-                {name: 'answer4', url: this.amazonURL+"antwoord_d.mp4", preload:true},
-                {name: 'answer5', url: this.amazonURL+"antwoord_e.mp4", preload:true}
+                {name: 'answer', url: this.amazonURL+"antwoord.mp4", preload:false},
+                {name: 'answer1', url: this.amazonURL+"antwoord_a.mp4", preload:false},
+                {name: 'answer2', url: this.amazonURL+"antwoord_b.mp4", preload:false},
+                {name: 'answer3', url: this.amazonURL+"antwoord_c.mp4", preload:false},
+                {name: 'answer4', url: this.amazonURL+"antwoord_d.mp4", preload:false},
+                {name: 'answer5', url: this.amazonURL+"antwoord_e.mp4", preload:false}
             ]
         };
 
@@ -49,8 +148,8 @@ var VControl = function(){
                 this.preload(pid,video.name);
             }
             else{
-                this.preloadPercent = 100;
-                app.updateLoadingStatus();
+                //this.preloadPercent = 100;
+                //app.updateLoadingStatus();
             }
         }.bind(this))
     }
@@ -58,9 +157,8 @@ var VControl = function(){
     this.preload = function(id, name){
 
         var videoObject = $('#dilemma-'+id+' video.'+name).get(0);
-
-        videoObject.oncanplay = function() {
-
+        videoObject.addEventListener("canplay", function(){
+            console.log(videoObject)
             this.videos.push({
                 id:id,
                 name:name,
@@ -74,12 +172,16 @@ var VControl = function(){
                 var timeInMinutes = this.formatTime(e.currentTarget.currentTime);
                 this.controls.find('#time-indicator').text(timeInMinutes);
             }.bind(this);
-
             this.checkCounter++;
             this.preloadPercent = (this.checkCounter/this.videosToPreload) * 100;
-            //console.log(Math.ceil(this.preloadPercent)+'%');
+            console.log(Math.ceil(this.preloadPercent)+'%');
             app.updateLoadingStatus();
-        }.bind(this);
+        }.bind(this));
+        //videoObject.oncanplay = function() {
+
+
+        //
+        //}.bind(this);
     }
 
     this.formatTime = function(seconds) {
@@ -98,10 +200,13 @@ var VControl = function(){
         $(obj).attr('muted', 'muted');
         $(obj).attr('width', '100%');
         $(obj).attr('height', 'auto');
-        if(preload)
-            $(obj).attr('preload', 'auto');
-        else
+
+        if(id=='p4'){
+            console.log(id)
             $(obj).attr('preload', 'none');
+        }else{
+            $(obj).attr('preload', 'none');}
+        //$(obj).attr('autoplay', 'true');
         $(obj).attr('style', 'display:none;');
         source = document.createElement('source');
         $(source).attr('type', 'video/mp4');
@@ -109,8 +214,8 @@ var VControl = function(){
 
         $(obj).append(source);
         $("#dilemma-"+id+" .videocontainer").append(obj);
-        if(preload)
-            obj.play();
+        //if(preload)
+        obj.play();
     }
 
     this.play = function(id, name) {
@@ -164,7 +269,7 @@ var VControl = function(){
         return videoElem;
     }
 };
-
+*/
 var vControl = new VControl();
 vControl.init();
 

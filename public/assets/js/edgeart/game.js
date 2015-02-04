@@ -23,14 +23,7 @@ var Application = function(){
 
         //tijdelijk: Reset de game wanneer alles beantwoord is.
 
-        if($('.person-select button.finished').length >= 0) {
-            console.log('/finish')
-            pControl.load('finish');
-            //alert('Einde van de game, de game wordt automatisch gereset nu');
-            //$.get( "resetsubmission", function( data ) {
-
-            //}, 'json');
-        }
+        this.checkGameFinished()
     };
 
     this.showDilemma = function(id) {
@@ -66,7 +59,22 @@ var Application = function(){
         }
         $('#loading-overlay .counter').html(this.loadedPercent);
     };
+
+    this.checkGameFinished = function(){
+         if($('.person-select button.finished').length == 5) {
+            console.log('/finish')
+
+            //alert('Einde van de game, de game wordt automatisch gereset nu');
+            $.get( "resetsubmission", function( data ) {
+            }, 'json');
+
+             pControl.load('finish');
+        }
+    }
 };
+
+
+
 
 var Dilemma = function(id, htmlobj){
     this.source = $(htmlobj);
@@ -141,6 +149,7 @@ var Dilemma = function(id, htmlobj){
                     this.videos.ending.show();
                     vControl.play(this.id, 'answer').onended = function(){
                         this.hide();
+                        app.checkGameFinished();
                     }.bind(this);
                 }.bind(this);
             }else{

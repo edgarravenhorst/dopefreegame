@@ -646,9 +646,39 @@ body.terms {
     }
 }
 
+// =============================================================================
+// PAGE FINISH
+// =============================================================================
+
+body.finish {
+    #ajaxContainer {
+        background-image:url('../images/bg5.jpg');
+    }
+
+    #page-content {
+        margin:auto;
+        width:50%;
+        max-width:500px;
+        padding-left:200px;
+        @include centerElement('both');
+        text-align:center;
+        font-size:18px;
+        line-height: 140%;
+        footer{
+            font-size:14px;
+            line-height: 130%;
+        }
+    }
+}
+
+// =============================================================================
+// SCORE OVERLAY
+// =============================================================================
+
+
 #score-overlay {
     position:absolute;
-    left:20%;
+    left:10%;
     background-image:url('../images/game/large-vertical-down-arrow.png');
     background-size:auto 3500px;
     background-position:50% -3500px;

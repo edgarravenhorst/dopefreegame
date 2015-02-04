@@ -2,82 +2,83 @@
 
 class PageController extends BaseController {
 
-	function show_homepage() {
-		if (Auth::user())
-			return Redirect::route('terms');
+    function show_homepage() {
+        if (Auth::user())
+            return Redirect::route('terms');
 
-		$view = View::make('public.pages.index');
-		$view->title = 'Welkom';
-		$view->bodyClass = 'loginscreen';
-		$view->activationcode;
+        $view = View::make('public.pages.login');
+        $view->title = 'Login';
+        $view->bodyClass = 'loginscreen';
+        $view->activationcode;
 
-		return $view;
-	}
+        return $view;
+    }
 
-	function show_ajax() {
-		$view = View::make('public.pages.index');
-		$view->title = 'Welkom';
-		$view->bodyClass = 'loginscreen';
-		$view->activationcode;
+    function show_ajax() {
 
-		return $view;
-	}
+        $view = View::make('public.pages.index');
+        $view->title = 'Welkom';
+        $view->bodyClass = '';
+        $view->activationcode;
 
-	function show_login($activationcode) {
-		if (Auth::user())
-			return Redirect::route('terms');
+        return $view;
+    }
 
-		$view = View::make('public.pages.login');
-		$view->title = 'Login';
-		$view->bodyClass = 'loginscreen';
-		$view->activationcode = $activationcode;
-		return $view;
-	}
+    function show_login($activationcode) {
+        if (Auth::user())
+            return Redirect::route('terms');
 
-	function show_terms() {
-		$view = View::make('public.pages.terms');
-		$view->title = 'Algemene voorwaarden';
-		$view->bodyClass = 'terms';
-		$view->user = Auth::user();
-		return $view;
-	}
+        $view = View::make('public.pages.login');
+        $view->title = 'Login';
+        $view->bodyClass = 'loginscreen';
+        $view->activationcode;
+        return $view;
+    }
 
-	function show_loading() {
-		$view = View::make('public.pages.loading');
-		$view->title = 'Loading game';
-		$view->bodyClass = 'loading';
-		$view->user = Auth::user();
-		return $view;
-	}
+    function show_terms() {
+        $view = View::make('public.pages.terms');
+        $view->title = 'Algemene voorwaarden';
+        $view->bodyClass = 'terms';
+        $view->user = Auth::user();
+        return $view;
+    }
 
-	function show_game() {
-		$view = View::make('public.pages.game');
-		$view->title = 'Doping game';
-		$view->bodyClass = 'game';
-		$view->user = Auth::user();
+    function show_loading() {
+        $view = View::make('public.pages.loading');
+        $view->title = 'Loading game';
+        $view->bodyClass = 'loading';
+        $view->user = Auth::user();
+        return $view;
+    }
 
-		$submission = Submission::find($view->user->id);
-		$questions = Questions::get();
+    function show_game() {
+        $view = View::make('public.pages.game');
+        $view->title = 'Doping game';
+        $view->bodyClass = 'game';
+        $view->user = Auth::user();
 
-		foreach($questions as $question){
-			$is_answered = ($submission['question'.$question->questionID] != 0);
-			$question->is_answered = $is_answered;
-		}
+        $submission = Submission::find($view->user->id);
+        $questions = Questions::get();
 
-		$view->finished = '';
+        foreach($questions as $question){
+            $is_answered = ($submission['question'.$question->questionID] != 0);
+            $question->is_answered = $is_answered;
+        }
+
+        $view->finished = '';
 
         $view->submission = $submission;
-		$view->questions = $questions;
+        $view->questions = $questions;
 
-		return $view;
-	}
+        return $view;
+    }
 
-	function show_congrats() {
-		$view = View::make('public.pages.finish');
-		$view->title = 'Gefeliciteerd';
-		$view->bodyClass = 'game';
-		$view->user = Auth::user();
-		return $view;
-	}
+    function show_congrats() {
+        $view = View::make('public.pages.finish');
+        $view->title = 'Gefeliciteerd';
+        $view->bodyClass = 'finish';
+        $view->user = Auth::user();
+        return $view;
+    }
 
 }

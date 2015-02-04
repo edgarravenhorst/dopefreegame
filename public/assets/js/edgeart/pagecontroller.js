@@ -7,6 +7,8 @@ var PControl = function(){
 
 	this.init = function(){
 
+        this.load('login')
+
 		this.initForms();
 
 		$(document).on("click", "a", function(e){
